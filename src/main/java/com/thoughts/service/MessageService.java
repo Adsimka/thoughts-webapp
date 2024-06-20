@@ -23,7 +23,7 @@ public class MessageService {
 
     public Message create(MessageDto messageDto) {
         return Optional.of(messageDto)
-                .map(dto -> messageMapper.map(dto))
+                .map(messageMapper::map)
                 .map(messageRepository::saveAndFlush)
                 .orElseThrow();
     }

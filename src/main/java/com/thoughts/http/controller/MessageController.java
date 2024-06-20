@@ -38,5 +38,7 @@ public class MessageController {
                 .build();
 
         messageService.create(messageDto);
+
+        return "message/messages";
     }
 }
