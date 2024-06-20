@@ -7,7 +7,7 @@ import lombok.Value;
 @Builder
 public class MessageDto {
 
-    private String text;
+    String text;
 
-    private String tag;
+    String tag;
 }
