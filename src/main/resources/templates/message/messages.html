@@ -1,0 +1,37 @@
+<!-- messages.html -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+</head>
+<body>
+<h1>All Messages</h1>
+
+<!-- Форма для создания нового сообщения -->
+<form method="post" action="/create">
+    <label for="text">Text:</label><br>
+    <input type="text" id="text" name="text" required><br><br> <!-- поле для ввода текста -->
+
+    <label for="tag">Tag:</label><br>
+    <input type="text" id="tag" name="tag" required><br><br> <!-- поле для ввода тега -->
+
+    <button type="submit">Create Message</button>
+</form>
+
+<hr>
+
+<!-- Список сообщений -->
+<ul>
+    <!-- Проходимся по списку сообщений и выводим каждое -->
+    <th:block th:each="message : ${messages}">
+        <li>
+            <span th:text="${message.text}"></span> - <!-- выводим текст сообщения -->
+            <span th:text="${message.tag}"></span> <!-- выводим тег сообщения -->
+        </li>
+    </th:block>
+</ul>
+</body>
+</html>

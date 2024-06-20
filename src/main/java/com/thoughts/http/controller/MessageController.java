@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/messages")
+@RequestMapping("/messages.html")
 public class MessageController {
 
     private final MessageService messageService;
@@ -25,7 +25,7 @@ public class MessageController {
         List<Message> messages = messageService.findAll();
         model.addAttribute(messages);
 
-        return "message/messages";
+        return "message/messages.html";
     }
 
     @PostMapping
@@ -39,6 +39,6 @@ public class MessageController {
 
         messageService.create(messageDto);
 
-        return "message/messages";
+        return "message/messages.html";
     }
 }
