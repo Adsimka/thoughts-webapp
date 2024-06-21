@@ -18,15 +18,5 @@
     <button type="submit">Create Message</button>
 </form>
 
-<hr>
-
-<ul>
-    <th:block th:each="message : ${messages}">
-        <li>
-            <span th:text="${message.text}"></span>
-            <span th:text="${message.tag}"></span>
-        </li>
-    </th:block>
-</ul>
 </body>
 </html>
