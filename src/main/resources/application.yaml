@@ -6,3 +6,9 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     generate-ddl: true
+    properties:
+        hibernate.format_sql: true
+
+logging:
+    level:
+      org.hibernate.SQL: DEBUG
