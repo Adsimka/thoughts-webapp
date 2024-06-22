@@ -22,7 +22,10 @@ public class MessageService {
     }
 
     public List<Message> findAll(String tag) {
-        return messageRepository.findByTag(tag);
+        if (tag != null && !tag.isEmpty()) {
+            return messageRepository.findByTag(tag);
+        }
+        return messageRepository.findAll();
     }
 
     public Message create(MessageDto messageDto) {
