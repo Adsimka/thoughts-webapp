@@ -29,6 +29,15 @@ public class MessageController {
     public String create(@ModelAttribute("message") MessageDto message) {
         messageService.create(message);
 
-        return "message/create";
+        return "redirect:/messages";
+    }
+
+    @PostMapping("/tag")
+    public String findByAll(Model model,
+                            @RequestParam String tag) {
+        var messages = messageService.findAll(tag);
+        model.addAttribute("messages", messages);
+
+        return "message/messages";
     }
 }
