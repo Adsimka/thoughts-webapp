@@ -6,10 +6,7 @@ import com.thoughts.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,14 +26,8 @@ public class MessageController {
     }
 
     @PostMapping
-    public String create(@RequestParam String text,
-                         @RequestParam String tag) {
-        MessageDto messageDto = MessageDto.builder()
-                .text(text)
-                .tag(tag)
-                .build();
-
-        messageService.create(messageDto);
+    public String create(@ModelAttribute("message") MessageDto message) {
+        messageService.create(message);
 
         return "message/create";
     }

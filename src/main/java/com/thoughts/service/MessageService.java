@@ -21,6 +21,10 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
+    public List<Message> findAll(String tag) {
+        return messageRepository.findByTag(tag);
+    }
+
     public Message create(MessageDto messageDto) {
         return Optional.of(messageDto)
                 .map(messageMapper::map)
