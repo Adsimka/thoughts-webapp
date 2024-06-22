@@ -25,7 +25,7 @@ public class MessageController {
         List<Message> messages = messageService.findAll();
         model.addAttribute("messages", messages);
 
-        return "message/create";
+        return "message/messages";
     }
 
     @PostMapping
@@ -38,6 +38,6 @@ public class MessageController {
 
         messageService.create(messageDto);
 
-        return "redirect:/create";
+        return "message/create";
     }
 }
