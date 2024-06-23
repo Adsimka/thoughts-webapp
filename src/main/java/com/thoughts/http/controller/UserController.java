@@ -1,5 +1,6 @@
 package com.thoughts.http.controller;
 
+import com.thoughts.model.Role;
 import com.thoughts.model.User;
 import com.thoughts.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Collections;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +34,11 @@ public class UserController {
 
             return "registration";
         }
+
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+
+
         return "redirect:/login";
     }
 }

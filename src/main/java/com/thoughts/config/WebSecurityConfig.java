@@ -32,7 +32,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/login").permitAll()
+                        .requestMatchers("/", "/login", "/registration").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -44,11 +44,10 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> configure(AuthenticationManagerBuilder auth) {
+    public void configure(AuthenticationManagerBuilder auth) {
         try {
 
-            return auth.jdbcAuthentication()
+            auth.jdbcAuthentication()
                     .dataSource(dataSource)
                     .passwordEncoder(NoOpPasswordEncoder.getInstance())
                     .usersByUsernameQuery(USERNAME_PASSWORD_ACTIVE_QUERY)
