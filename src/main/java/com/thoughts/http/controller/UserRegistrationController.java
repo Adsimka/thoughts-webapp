@@ -29,7 +29,7 @@ public class UserRegistrationController {
         if (userFromDb != null) {
             model.addAttribute("message", "User exists!");
 
-            return "registration";
+            return "auth/registration";
         }
 
         user.setActive(true);
