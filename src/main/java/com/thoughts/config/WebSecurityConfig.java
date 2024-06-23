@@ -1,6 +1,7 @@
 package com.thoughts.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,6 +19,8 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private final DataSource dataSource;
+
     private final static String USERNAME_PASSWORD_ACTIVE_QUERY = """
             SELECT username, password, active FROM users WHERE username = ?
             """;
@@ -26,7 +29,6 @@ public class WebSecurityConfig {
             SELECT u.username, ur.roles FROM users u JOIN user_role ur ON u.id = ur.user_id WHERE u.username = ?
             """;
 
-    private final DataSource dataSource;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,6 +46,7 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Autowired
     public void configure(AuthenticationManagerBuilder auth) {
         try {
 

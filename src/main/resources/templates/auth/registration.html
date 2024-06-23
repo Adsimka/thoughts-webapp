@@ -2,17 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
 <head>
-  <title>Login Page</title>
+  <title>Registration Page</title>
 </head>
 <body>
 Add new user
-<th:block th:each="mes : ${message}">
-  <li>
-    <span th:text="${mes}"></span>
-  </li>
-</th:block>
+<ul th:if="${message}">
+  <li th:text="${message}"></li>
+</ul>
 
-<form th:action="@{/registration}" method="post">
+<form th:action="@{/registration}" method="post" th:object="${user}">
   <div><label> User Name : <input type="text" name="username"/> </label></div>
   <div><label> Password: <input type="password" name="password"/> </label></div>
   <div><input type="submit" value="Sign Up"/></div>

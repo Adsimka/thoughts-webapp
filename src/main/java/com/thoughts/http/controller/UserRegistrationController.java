@@ -6,10 +6,7 @@ import com.thoughts.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -27,7 +24,7 @@ public class UserRegistrationController {
 
     @PostMapping
     public String create(Model model,
-                         @RequestParam User user) {
+                         @ModelAttribute User user) {
         User userFromDb = userService.findByUsername(user.getUsername());
         if (userFromDb != null) {
             model.addAttribute("message", "User exists!");
@@ -37,7 +34,7 @@ public class UserRegistrationController {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-
+        userService.save(user);
 
         return "redirect:/login";
     }
