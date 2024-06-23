@@ -16,7 +16,7 @@ import java.util.Collections;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/registration")
-public class UserController {
+public class UserRegistrationController {
 
     private final UserService userService;
 
