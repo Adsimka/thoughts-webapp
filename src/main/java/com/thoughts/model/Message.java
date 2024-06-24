@@ -23,4 +23,6 @@ public class Message {
     private String text;
 
     private String tag;
+
+    private User author;
 }
