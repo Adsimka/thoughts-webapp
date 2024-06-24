@@ -34,6 +34,7 @@ public class MessageService {
         message.setAuthor(user);
 
         return Optional.of(message)
+                .map(messageRepository::saveAndFlush)
                 .orElseThrow();
     }
 }
