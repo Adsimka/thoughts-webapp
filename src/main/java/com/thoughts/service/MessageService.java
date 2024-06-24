@@ -3,6 +3,7 @@ package com.thoughts.service;
 import com.thoughts.dto.MessageDto;
 import com.thoughts.mapper.MessageMapper;
 import com.thoughts.model.Message;
+import com.thoughts.model.User;
 import com.thoughts.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,11 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Message create(MessageDto messageDto) {
-        return Optional.of(messageDto)
-                .map(messageMapper::map)
-                .map(messageRepository::saveAndFlush)
+    public Message create(MessageDto messageDto, User user) {
+        Message message = messageMapper.map(messageDto);
+        message.setAuthor(user);
+
+        return Optional.of(message)
                 .orElseThrow();
     }
 }

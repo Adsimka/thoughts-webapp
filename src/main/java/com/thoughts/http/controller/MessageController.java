@@ -30,7 +30,7 @@ public class MessageController {
     @PostMapping
     public String create(@ModelAttribute("message") MessageDto message,
                          @AuthenticationPrincipal User user) {
-        messageService.create(message);
+        messageService.create(message, user);
 
         return "redirect:/messages";
     }

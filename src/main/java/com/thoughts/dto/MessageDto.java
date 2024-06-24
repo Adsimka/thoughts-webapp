@@ -1,5 +1,6 @@
 package com.thoughts.dto;
 
+import com.thoughts.model.User;
 import lombok.Builder;
 import lombok.Value;
 
@@ -10,4 +11,6 @@ public class MessageDto {
     String text;
 
     String tag;
+
+    User author;
 }
