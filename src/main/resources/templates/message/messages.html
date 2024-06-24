@@ -8,13 +8,13 @@
 </head>
 <body>
 
-<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">user</span>!</h1>
+<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="username">user</span>!</h1>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
 
 <h1>All Messages</h1>
-<form method="post" action="/messages/tag">
+<form method="post" th:action="@{/messages/tag}">
     <input type="text" name="tag" placeholder="Enter tag">
     <button type="submit">Найти</button>
 </form>
@@ -29,5 +29,8 @@
         </th:block>
     </ul>
 </div>
+
+<a href="/messages/create">Add new message</a>
+
 </body>
 </html>

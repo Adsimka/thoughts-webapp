@@ -7,7 +7,7 @@
 <body>
 <h1>Create message</h1>
 
-<form method="post" action="/messages" th:object="${message}">
+<form method="post" th:action="@{/messages}" th:object="${message}">
     <label for="text">Text:
         <input type="text" id="text" name="text" required><br><br>
     </label><br>

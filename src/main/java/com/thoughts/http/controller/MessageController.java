@@ -40,4 +40,9 @@ public class MessageController {
 
         return "message/messages";
     }
+
+    @GetMapping("/create")
+    public String createMessage() {
+        return "message/create";
+    }
 }
