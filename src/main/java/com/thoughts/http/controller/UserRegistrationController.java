@@ -26,6 +26,7 @@ public class UserRegistrationController {
     public String create(Model model,
                          @ModelAttribute User user) {
         User userFromDb = userService.findByUsername(user.getUsername());
+
         if (userFromDb != null) {
             model.addAttribute("message", "User exists!");
 

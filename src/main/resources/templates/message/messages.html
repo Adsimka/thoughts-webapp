@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+
+<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="username">user</span>!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<h1>All Messages</h1>
+<form method="post" action="/messages/tag">
+    <form method="post" th:action="@{/messages/tag}">
+        <input type="text" name="tag" placeholder="Enter tag">
+        <button type="submit">Найти</button>
+    </form>
+    <div>
+        <ul>
+            <th:block th:each="message : ${messages}">
+                <li>
+                    <span th:text="${message.id}"></span>
+                    <span th:text="${message.text}"></span>
+                    <span th:text="${message.tag}"></span>
+                    <span th:text="${message.author.username}"></span>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</form>
+
+<a href="/messages/create">Add new message</a>
+
+</body>
+</html>
