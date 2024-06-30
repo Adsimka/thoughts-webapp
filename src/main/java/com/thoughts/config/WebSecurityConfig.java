@@ -2,15 +2,12 @@ package com.thoughts.config;
 
 import com.thoughts.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,14 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
-    private final static String USERNAME_PASSWORD_ACTIVE_QUERY = """
-            SELECT username, password, active FROM users WHERE username = ?
-            """;
-
-    private final static String USERNAME_ROLES_JOIN = """
-            SELECT u.username, ur.roles FROM users u JOIN user_role ur ON u.id = ur.user_id WHERE u.username = ?
-            """;
 
     private final UserService userService;
 
@@ -41,8 +30,13 @@ public class WebSecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
+                        .defaultSuccessUrl("/", true)
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout((logout) -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll()
+                );
 
         return http.build();
     }

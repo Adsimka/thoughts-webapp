@@ -9,6 +9,8 @@ spring:
     properties:
         hibernate.format_sql: true
     open-in-view: false
+  freemarker:
+    expose-request-attributes: true
 
 logging:
     level:
