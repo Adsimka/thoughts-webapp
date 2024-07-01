@@ -6,6 +6,7 @@ import com.thoughts.model.User;
 import com.thoughts.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,15 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping
-    public String findByAll(Model model) {
-        List<Message> messages = messageService.findAll();
+    public String findByAll(Model model,
+                            @RequestParam(required = false, defaultValue = "") String tag) {
+        List<Message> messages;
+
+        if (tag != null) {
+            messages = messageService.findAll(tag);
+        } else {
+            messages = messageService.findAll();
+        }
         model.addAttribute("messages", messages);
 
         return "message/messages";
@@ -36,15 +44,15 @@ public class MessageController {
 
         return "redirect:/messages";
     }
-
-    @PostMapping("/tag")
-    public String findByAll(Model model,
-                            @RequestParam String tag) {
-        var messages = messageService.findAll(tag);
-        model.addAttribute("messages", messages);
-
-        return "message/messages";
-    }
+//
+//    @PostMapping("/tag")
+//    public String findByAll(Model model,
+//                            @RequestParam String tag) {
+//        var messages = messageService.findAll(tag);
+//        model.addAttribute("messages", messages);
+//
+//        return "message/messages";
+//    }
 
     @GetMapping("/create")
     public String createMessage() {

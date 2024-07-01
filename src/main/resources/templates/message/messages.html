@@ -13,24 +13,22 @@
 </form>
 
 <h1>All Messages</h1>
-<form method="post" action="/messages/tag">
-    <form method="post" th:action="@{/messages/tag}">
-        <input type="text" name="tag" placeholder="Enter tag">
-        <button type="submit">Найти</button>
-    </form>
-    <div>
-        <ul>
-            <th:block th:each="message : ${messages}">
-                <li>
-                    <span th:text="${message.id}"></span>
-                    <span th:text="${message.text}"></span>
-                    <span th:text="${message.tag}"></span>
-                    <span th:text="${message.author.username}"></span>
-                </li>
-            </th:block>
-        </ul>
-    </div>
+<form method="get" th:action="@{/messages}">
+    <input type="text" name="tag" placeholder="Enter tag">
+    <button type="submit">Найти</button>
 </form>
+<div>
+    <ul>
+        <th:block th:each="message : ${messages}">
+            <li>
+                <span th:text="${message.id}"></span>
+                <span th:text="${message.text}"></span>
+                <span th:text="${message.tag}"></span>
+                <span th:text="${message.author.username}"></span>
+            </li>
+        </th:block>
+    </ul>
+</div>
 
 <a href="/messages/create">Add new message</a>
 
