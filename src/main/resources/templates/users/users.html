@@ -18,7 +18,7 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.username}"></td>
             <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
-            <td><a th:href="/users/${user.id}">Edit</a></td>
+            <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
         </tr>
         </tbody>
     </table>
