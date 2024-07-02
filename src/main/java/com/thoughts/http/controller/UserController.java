@@ -4,18 +4,15 @@ import com.thoughts.model.Role;
 import com.thoughts.model.User;
 import com.thoughts.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     private final UserService userService;
