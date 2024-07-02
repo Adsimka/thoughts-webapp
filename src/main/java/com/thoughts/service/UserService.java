@@ -16,6 +16,15 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow();
+    }
+
+    public List<User> getAllUsersWithRoles() {
+        return userRepository.findAllWithRoles();
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -24,12 +33,16 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public void update(User user) {
+        userRepository.saveAndFlush(user);
     }
 }
