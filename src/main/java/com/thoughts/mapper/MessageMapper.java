@@ -12,6 +12,7 @@ public class MessageMapper implements Mapper<MessageDto, Message> {
         return Message.builder()
                 .text(object.getText())
                 .tag(object.getTag())
+                .image(object.getImage())
                 .build();
     }
 }

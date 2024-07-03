@@ -13,4 +13,6 @@ public class MessageDto {
     String tag;
 
     User author;
+
+    String image;
 }
