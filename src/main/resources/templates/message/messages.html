@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Messages</title>
 </head>
 <body>
-<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="username">user</span>!</h1>
+<h1 th:inline="text">Hello <span th:remove="tag">user</span>!</h1>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
@@ -24,6 +23,7 @@
                 <span th:text="${message.id}"></span>
                 <span th:text="${message.text}"></span>
                 <span th:text="${message.tag}"></span>
+<!--                TODO 03.07.2024 : Убрать дополнительные запросы -->
                 <span th:text="${message.author.username}"></span>
             </li>
         </th:block>

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,19 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void update(User user) {
-        userRepository.saveAndFlush(user);
+    public Optional<User> update(Long id, User user) {
+        return userRepository.findById(id)
+                .map(entity -> map(user, entity))
+                .map(userRepository::saveAndFlush);
+
+    }
+
+    private User map(User user, User entity) {
+        if (user.getUsername() != null) {
+            entity.setUsername(user.getUsername());
+        }
+        entity.setRoles(user.getRoles());
+
+        return entity;
     }
 }

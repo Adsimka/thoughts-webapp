@@ -33,9 +33,10 @@ public class UserController {
         return "users/edit";
     }
 
-    @PostMapping("/{user}")
-    public String userEditProfile(@ModelAttribute User user) {
-        userService.update(user);
+    @PostMapping("/{id}")
+    public String userEditProfile(@PathVariable("id") Long id,
+                                  @ModelAttribute User user) {
+        userService.update(id, user);
 
         return "redirect:/users";
     }
