@@ -19,3 +19,7 @@ logging:
         springframework:
           security: DEBUG
           web: DEBUG
+
+file:
+  storage:
+    location: file-storage
