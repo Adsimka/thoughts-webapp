@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class MessageController {
 
     @PostMapping
     public String create(@ModelAttribute("message") MessageDto message,
-                         @AuthenticationPrincipal User user) {
+                         @AuthenticationPrincipal User user,
+                         @RequestParam("file")MultipartFile file) {
         if (user != null) {
             messageService.create(message, user);
         }
