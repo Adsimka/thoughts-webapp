@@ -6,18 +6,24 @@ import com.thoughts.model.Message;
 import com.thoughts.model.User;
 import com.thoughts.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MessageService {
 
     private final MessageRepository messageRepository;
+    private final ImageService imageService;
+
     private final MessageMapper messageMapper;
+
+    private static final String DOT = ".";
 
     public List<Message> findAll() {
         return messageRepository.findAll();
@@ -30,12 +36,33 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public Message create(MessageDto messageDto, User user) {
+    public Message create(MessageDto messageDto,
+                          User user,
+                          MultipartFile file) {
         Message message = messageMapper.map(messageDto);
         message.setAuthor(user);
+
+        uploadImage(file, message);
 
         return Optional.of(message)
                 .map(messageRepository::saveAndFlush)
                 .orElseThrow();
+    }
+
+    private void uploadImage(MultipartFile file, Message message) {
+        if (file != null) {
+            String uuidImage = UUID.randomUUID().toString();
+            String filename = String.format(uuidImage, DOT, file.getOriginalFilename());
+            message.setImage(filename);
+
+            upload(file, filename);
+        }
+    }
+
+    @SneakyThrows
+    private void upload(MultipartFile file, String filename) {
+        if (!file.isEmpty()) {
+            imageService.upload(filename, file.getInputStream());
+        }
     }
 }

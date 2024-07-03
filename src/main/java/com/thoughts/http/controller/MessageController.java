@@ -40,7 +40,7 @@ public class MessageController {
                          @AuthenticationPrincipal User user,
                          @RequestParam("file")MultipartFile file) {
         if (user != null) {
-            messageService.create(message, user);
+            messageService.create(message, user, file);
         }
 
         return "redirect:/messages";

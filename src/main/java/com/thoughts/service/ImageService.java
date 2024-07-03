@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE;
@@ -26,7 +25,7 @@ public class ImageService {
         Path fullPath = Path.of(bucket, imagePath);
         try (stream) {
             Files.createDirectories(fullPath.getParent());
-            Files.write(fullPath, stream.readAllBytes(), CREATE, TRUNCATE_EXISTING)
+            Files.write(fullPath, stream.readAllBytes(), CREATE, TRUNCATE_EXISTING);
         }
     }
 
