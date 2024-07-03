@@ -25,6 +25,9 @@
                 <span th:text="${message.tag}"></span>
 <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
                 <span th:text="${message.author.username}"></span>
+                <div th:if="${message.image}}">
+                    <img src="@{/messages/${message.image}" alt="Message image">
+                </div>
             </li>
         </th:block>
     </ul>
