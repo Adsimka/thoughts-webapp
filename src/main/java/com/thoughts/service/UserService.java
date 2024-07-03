@@ -34,11 +34,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
-    }
-
     public void save(User user) {
         userRepository.save(user);
     }
@@ -47,7 +42,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id)
                 .map(entity -> map(user, entity))
                 .map(userRepository::saveAndFlush);
-
     }
 
     private User map(User user, User entity) {
@@ -57,5 +51,10 @@ public class UserService implements UserDetailsService {
         entity.setRoles(user.getRoles());
 
         return entity;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username);
     }
 }

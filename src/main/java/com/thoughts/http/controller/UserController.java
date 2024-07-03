@@ -21,6 +21,7 @@ public class UserController {
     public String users(Model model) {
         var users = userService.getAllUsersWithRoles();
         model.addAttribute("users", users);
+
         return "users/users";
     }
 
