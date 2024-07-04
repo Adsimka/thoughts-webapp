@@ -38,7 +38,7 @@ public class MessageController {
     @PostMapping
     public String create(@ModelAttribute("message") MessageDto message,
                          @AuthenticationPrincipal User user,
-                         @RequestParam("file")MultipartFile file) {
+                         @RequestParam("file") MultipartFile file) {
         if (user != null) {
             messageService.create(message, user, file);
         }

@@ -50,9 +50,16 @@ public class MessageService {
     }
 
     private void uploadImage(MultipartFile file, Message message) {
-        if (file != null) {
+        if (file != null && !file.isEmpty()) {
             String uuidImage = UUID.randomUUID().toString();
-            String filename = String.format(uuidImage, DOT, file.getOriginalFilename());
+            String originalFilename = file.getOriginalFilename();
+            String fileExtension = "";
+
+            if (originalFilename != null && originalFilename.contains(DOT)) {
+                fileExtension = originalFilename.substring(originalFilename.lastIndexOf(DOT));
+            }
+
+            String filename = String.format(uuidImage, fileExtension);
             message.setImage(filename);
 
             upload(file, filename);

@@ -7,18 +7,18 @@
 <body>
 <h1>Create message</h1>
 
-<form method="post" action="/messages" th:object="${message}" enctype="multipart/form-data">
-    <form method="post" th:action="@{/messages}" th:object="${message}">
-        <label for="text">Text:
-            <input type="text" id="text" name="text" required><br><br>
-        </label><br>
-        <label for="tag">Tag:
-            <input type="text" id="tag" name="tag" required><br><br>
-        </label><br>
-        <label for="image">Image:
-            <input type="file" id="image" name="image"><br><br>
-        </label><br>
-        <button type="submit">Create Message</button>
-    </form>
+<form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data">
+    <label for="text">Text:
+        <input type="text" id="text" name="text" required><br><br>
+    </label><br>
+    <label for="tag">Tag:
+        <input type="text" id="tag" name="tag" required><br><br>
+    </label><br>
+    <label for="image">Image:
+        <input type="file" id="image" name="file"><br><br> <!-- Изменено на name="file" -->
+    </label><br>
+    <button type="submit">Create Message</button>
+</form>
+
 </body>
 </html>
