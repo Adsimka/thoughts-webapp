@@ -8,7 +8,6 @@ import com.thoughts.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final ImageService imageService;
-
     private final MessageMapper messageMapper;
 
     private static final String DOT = ".";
@@ -64,13 +62,6 @@ public class MessageService {
 
             uploadFile(file, filename);
         }
-    }
-
-    private Optional<byte[]> findImage(Integer id) {
-        return messageRepository.findById(id)
-                .map(Message::getImage)
-                .filter(StringUtils::hasText)
-                .flatMap(imageService::get);
     }
 
     @SneakyThrows
