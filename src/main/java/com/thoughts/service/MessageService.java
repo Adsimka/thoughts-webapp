@@ -55,11 +55,12 @@ public class MessageService {
             String originalFilename = file.getOriginalFilename();
             String fileExtension = "";
 
-            if (originalFilename != null && originalFilename.contains(DOT)) {
+            if (originalFilename != null) {
                 fileExtension = originalFilename.substring(originalFilename.lastIndexOf(DOT));
             }
 
-            String filename = String.format(uuidImage, fileExtension);
+//            TODO 04.07.2024 : Fix String concatenation
+            String filename = uuidImage + fileExtension;
             message.setImage(filename);
 
             upload(file, filename);
