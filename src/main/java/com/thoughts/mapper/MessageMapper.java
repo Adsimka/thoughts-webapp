@@ -3,6 +3,9 @@ package com.thoughts.mapper;
 import com.thoughts.dto.MessageDto;
 import com.thoughts.model.Message;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @Component
 public class MessageMapper implements Mapper<MessageDto, Message> {
@@ -12,7 +15,10 @@ public class MessageMapper implements Mapper<MessageDto, Message> {
         return Message.builder()
                 .text(object.getText())
                 .tag(object.getTag())
-                .image(object.getImage())
+                .image(Optional.ofNullable(object.getImage())
+                        .filter(image -> !image.isEmpty())
+                        .map(MultipartFile::getOriginalFilename)
+                        .orElse(null))
                 .build();
     }
 }

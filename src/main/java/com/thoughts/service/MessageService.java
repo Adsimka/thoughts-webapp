@@ -8,6 +8,7 @@ import com.thoughts.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -37,12 +38,11 @@ public class MessageService {
     }
 
     public Message create(MessageDto messageDto,
-                          User user,
-                          MultipartFile file) {
+                          User user) {
         Message message = messageMapper.map(messageDto);
         message.setAuthor(user);
 
-        uploadImage(file, message);
+        uploadImage(messageDto.getImage(), message);
 
         return Optional.of(message)
                 .map(messageRepository::saveAndFlush)
@@ -58,17 +58,23 @@ public class MessageService {
             if (originalFilename != null) {
                 fileExtension = originalFilename.substring(originalFilename.lastIndexOf(DOT));
             }
-
 //            TODO 04.07.2024 : Fix String concatenation
             String filename = uuidImage + fileExtension;
             message.setImage(filename);
 
-            upload(file, filename);
+            uploadFile(file, filename);
         }
     }
 
+    private Optional<byte[]> findImage(Integer id) {
+        return messageRepository.findById(id)
+                .map(Message::getImage)
+                .filter(StringUtils::hasText)
+                .flatMap(imageService::get);
+    }
+
     @SneakyThrows
-    private void upload(MultipartFile file, String filename) {
+    private void uploadFile(MultipartFile file, String filename) {
         if (!file.isEmpty()) {
             imageService.upload(filename, file.getInputStream());
         }

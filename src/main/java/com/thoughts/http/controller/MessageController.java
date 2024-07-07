@@ -37,10 +37,9 @@ public class MessageController {
 
     @PostMapping
     public String create(@ModelAttribute("message") MessageDto message,
-                         @AuthenticationPrincipal User user,
-                         @RequestParam("file") MultipartFile file) {
+                         @AuthenticationPrincipal User user) {
         if (user != null) {
-            messageService.create(message, user, file);
+            messageService.create(message, user);
         }
 
         return "redirect:/messages";
