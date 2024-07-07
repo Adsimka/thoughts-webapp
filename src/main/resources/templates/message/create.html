@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <meta charset="UTF-8">
-    <title>Messages</title>
-    <link rel="stylesheet" href="/static/style.css">
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<h1>Create message</h1>
-<div th:replace="fragments/bootstrap.html :: body"></div>
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            <h1>Create message</h1>
+            <div th:replace="fragments/bootstrap.html :: body"></div>
 
-<form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data">
-    <label for="text">Text:
-        <input type="text" id="text" name="text" required><br><br>
-    </label><br>
-    <label for="tag">Tag:
-        <input type="text" id="tag" name="tag" required><br><br>
-    </label><br>
-    <label for="image">Image:
-        <input type="file" id="image" name="file"><br><br>
-    </label><br>
-    <button type="submit">Create Message</button>
-</form>
+            <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data">
+                <label for="text">Text:
+                    <input type="text" id="text" name="text" required><br><br>
+                </label><br>
+                <label for="tag">Tag:
+                    <input type="text" id="tag" name="tag" required><br><br>
+                </label><br>
+                <label for="image">Image:
+                    <input type="file" id="image" name="file"><br><br>
+                </label><br>
+                <button type="submit">Create Message</button>
+            </form>
+        </th:block>
+    </div>
 
 </body>
 </html>

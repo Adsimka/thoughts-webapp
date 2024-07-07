@@ -2,21 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <title>Registration Page</title>
-    <link rel="stylesheet" href="/static/style.css">
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<div th:replace="fragments/bootstrap.html :: body"></div>
-
-Add new user
-<ul th:if="${message}">
-    <li th:text="${message}"></li>
-</ul>
-<form th:action="@{/registration}" method="post" th:object="${user}">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign Up"/></div>
-</form>
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            Add new user
+            <ul th:if="${message}">
+                <li th:text="${message}"></li>
+            </ul>
+            <form th:action="@{/registration}" method="post" th:object="${user}">
+                <div><label> User Name : <input type="text" name="username"/> </label></div>
+                <div><label> Password: <input type="password" name="password"/> </label></div>
+                <div><input type="submit" value="Sign Up"/></div>
+            </form>
+        </th:block>
+    </div>
 </body>
 </html>

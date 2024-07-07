@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <meta charset="UTF-8">
-    <title>Messages</title>
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<div th:replace="fragments/bootstrap.html :: body"></div>
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            <h1 th:inline="text">Hello <span th:remove="tag">user</span>!</h1>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
 
-<h1 th:inline="text">Hello <span th:remove="tag">user</span>!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<span><a href="/users">User list</a></span>
+            <h1>All Messages</h1>
+            <form method="get" th:action="@{/messages}">
+                <input type="text" name="tag" placeholder="Enter tag">
+                <button type="submit">Найти</button>
+            </form>
+            <div>
+                <ul>
+                    <th:block th:each="message : ${messages}">
+                        <li>
+                            <span th:text="${message.id}"></span>
+                            <span th:text="${message.text}"></span>
+                            <span th:text="${message.tag}"></span>
+                            <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
+                            <span th:text="${message.author.username}"></span>
+                            <div th:if="${message.image}">
+                                <img th:src="@{'/image/' + ${message.image}}" alt="Message image">
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
 
-<h1>All Messages</h1>
-<form method="get" th:action="@{/messages}">
-    <input type="text" name="tag" placeholder="Enter tag">
-    <button type="submit">Найти</button>
-</form>
-<div>
-    <ul>
-        <th:block th:each="message : ${messages}">
-            <li>
-                <span th:text="${message.id}"></span>
-                <span th:text="${message.text}"></span>
-                <span th:text="${message.tag}"></span>
-                <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
-                <span th:text="${message.author.username}"></span>
-                <div th:if="${message.image}">
-                    <img th:src="@{'/image/' + ${message.image}}" alt="Message image">
-                </div>
-            </li>
+            <a href="/messages/create">Add new message</a>
         </th:block>
-    </ul>
-</div>
-
-<a href="/messages/create">Add new message</a>
-
+    </div>
 </body>
 </html>

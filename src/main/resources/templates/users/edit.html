@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <meta charset="UTF-8">
-    <title>Thoughts</title>
-    <link rel="stylesheet" href="/static/style.css">
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<h1>User edit profile</h1>
-<div th:replace="fragments/bootstrap.html :: body"></div>
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            <h1>User edit profile</h1>
+            <div th:replace="fragments/bootstrap.html :: body"></div>
 
-<form th:action="@{/users/{userId}(userId=${user.id})}" method="post" th:object="${user}">
-    <label for="username">Username:
-        <input id="username" type="text" name="username" th:value="${user.username}">
-    </label><br>
-    <div th:each="role : ${roles}">
-        <label>
-            <input type="checkbox" name="roles"
-                   th:value="${role.name()}"
-                   th:checked="${user.roles.contains(role)}">
-            <span th:text="${role.name()}"></span>
-        </label>
+            <form th:action="@{/users/{userId}(userId=${user.id})}" method="post" th:object="${user}">
+                <label for="username">Username:
+                    <input id="username" type="text" name="username" th:value="${user.username}">
+                </label><br>
+                <div th:each="role : ${roles}">
+                    <label>
+                        <input type="checkbox" name="roles"
+                               th:value="${role.name()}"
+                               th:checked="${user.roles.contains(role)}">
+                        <span th:text="${role.name()}"></span>
+                    </label>
+                </div>
+                <button type="submit">Edit</button>
+            </form>
+        </th:block>
     </div>
-    <button type="submit">Edit</button>
-</form>
 </body>
 </html>

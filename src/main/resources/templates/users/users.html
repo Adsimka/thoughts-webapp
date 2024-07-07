@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <meta charset="UTF-8">
-    <title>Thoughts</title>
-    <link rel="stylesheet" href="/static/style.css">
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<div th:replace="fragments/bootstrap.html :: body"></div>
-
-<h1>All users</h1>
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.username}"></td>
-            <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
-            <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            <h1>All users</h1>
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
+                        <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+    </div>
 </body>
 </html>

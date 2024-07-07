@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/bootstrap.html :: head">
-    <meta charset="UTF-8">
-    <title>Messages</title>
+<head th:replace="~{base.html :: head}">
 </head>
 <body>
-<div th:replace="fragments/bootstrap.html :: body"></div>
-
-<div>Hello, user</div>
-<a href="/messages">Main page</a>
-
+    <div th:replace="~{base.html :: navbar}"></div>
+    <div th:replace="~{base.html :: contentWrapper}">
+        <th:block th:fragment="content">
+            <h5>Hello, user</h5>
+            <div>This is a simple clone of Twitter</div>
+        </th:block>
+    </div>
 </body>
 </html>
