@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="fragments/bootstrap.html :: head">
     <meta charset="UTF-8">
     <title>Messages</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 <h1>Create message</h1>
+<div th:replace="fragments/bootstrap.html :: body"></div>
 
 <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data">
     <label for="text">Text:

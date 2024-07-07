@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymleaf.org">
 
-<head>
+<head th:replace="fragments/bootstrap.html :: head">
     <meta charset="UTF-8">
     <title>Messages</title>
-    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+<div th:replace="fragments/bootstrap.html :: body"></div>
 
 <div>Hello, user</div>
 <a href="/messages">Main page</a>
