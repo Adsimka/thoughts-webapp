@@ -8,7 +8,6 @@
     <div th:replace="~{base.html :: contentWrapper}">
         <th:block th:fragment="content">
             <h1>User edit profile</h1>
-            <div th:replace="fragments/bootstrap.html :: body"></div>
 
             <form th:action="@{/users/{userId}(userId=${user.id})}" method="post" th:object="${user}">
                 <label for="username">Username:
