@@ -7,9 +7,33 @@
 <div th:replace="~{base.html :: navbar}"></div>
 <div th:replace="~{base.html :: contentWrapper}">
     <th:block th:fragment="content">
-        <h1 th:inline="text">Hello <span th:remove="tag">user</span>!</h1>
+        <p class="d-inline-flex gap-1">
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+               aria-expanded="false" aria-controls="collapseExample">
+                Add new message
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data"
+                      class="mt-4">
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Text:</label>
+                        <input type="text" id="text" name="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tag" class="form-label">Tag:</label>
+                        <input type="text" id="tag" name="tag" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image:</label>
+                        <input type="file" id="image" name="image" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Message</button>
+                </form>
+            </div>
+        </div>
 
-        <h1>All Messages</h1>
         <form method="get" th:action="@{/messages}">
             <input type="text" name="tag" placeholder="Enter tag">
             <button type="submit">Найти</button>
@@ -26,8 +50,6 @@
                 </div>
             </th:block>
         </div>
-
-        <a href="/messages/create">Add new message</a>
     </th:block>
 </div>
 </body>

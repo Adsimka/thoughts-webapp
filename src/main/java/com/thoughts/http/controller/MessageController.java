@@ -44,9 +44,9 @@ public class MessageController {
 
         return "redirect:/messages";
     }
-
-    @GetMapping("/create")
-    public String createMessage() {
-        return "message/create";
-    }
+//
+//    @GetMapping("/create")
+//    public String createMessage() {
+//        return "message/create";
+//    }
 }
