@@ -53,6 +53,16 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <form action="/registration">
+                            <button type="submit" class="btn btn-primary nav-link">Sing Up</button>
+                        </form>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAnonymous()">
+                        <form action="/login">
+                            <button type="submit" class="btn btn-outline-light nav-link">Login</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
