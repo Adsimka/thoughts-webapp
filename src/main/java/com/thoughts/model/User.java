@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+import static com.thoughts.model.Role.ADMIN;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -55,5 +57,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive();
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(ADMIN);
     }
 }

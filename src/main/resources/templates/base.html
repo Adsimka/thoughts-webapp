@@ -31,9 +31,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/messages">Messages</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/users">Users</a>
-                    </li>
+                    <div sec:authorize="isAuthenticated()">
+                        <div th:if="${#authentication.principal.isAdmin()}">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/users">Users</a>
+                            </li>
+                        </div>
+                    </div>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
@@ -54,7 +58,6 @@
         </div>
     </nav>
 </th:block>
-
 <th:block th:fragment="contentWrapper">
     <div class="container mt-5">
         <div th:insert="~{::content}"></div>
