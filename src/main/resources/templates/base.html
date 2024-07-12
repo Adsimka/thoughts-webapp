@@ -54,13 +54,13 @@
                         </ul>
                     </li>
                     <li class="nav-item" sec:authorize="isAnonymous()">
-                        <form action="/registration">
-                            <button type="submit" class="btn btn-primary nav-link">Sing Up</button>
+                        <form class="d-flex" action="/registration">
+                            <button type="submit" class="btn btn-primary me-2">Sign Up</button>
                         </form>
                     </li>
                     <li class="nav-item" sec:authorize="isAnonymous()">
-                        <form action="/login">
-                            <button type="submit" class="btn btn-outline-light nav-link">Login</button>
+                        <form class="d-flex" action="/login">
+                            <button type="submit" class="btn btn-outline-dark">Login</button>
                         </form>
                     </li>
                 </ul>

@@ -8,8 +8,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
+    <style>
+        .brand-title {
+            font-size: 3rem;
+        }
+        .brand-subtitle {
+            font-size: 3rem;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/login">
+            <span class="brand-title">Thoughts</span>
+            <span class="brand-subtitle">Account</span>
+        </a>
+    </div>
+</nav>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -20,7 +37,7 @@
                 <div class="card-body">
                     <form th:action="@{/registration}" method="post" th:object="${user}">
                         <div class="form-group">
-                            <label for="username">User Name:</label>
+                            <label for="username">Username:</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                             <div class="invalid-feedback">
                                 Please enter a username.
