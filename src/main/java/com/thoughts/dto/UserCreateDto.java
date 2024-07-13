@@ -1,5 +1,6 @@
 package com.thoughts.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -7,7 +8,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class UserDto {
+public class UserCreateDto {
 
     @NotNull
     @NotEmpty
@@ -15,13 +16,14 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
+    @Email
+    String email;
+
+    @NotNull
+    @NotEmpty
     String password;
 
     @NotNull
     @NotEmpty
-    boolean active;
-
-    @NotNull
-    @NotEmpty
-    String email;
+    String matchingPassword;
 }

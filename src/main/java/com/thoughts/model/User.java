@@ -2,6 +2,7 @@ package com.thoughts.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +17,7 @@ import static com.thoughts.model.Role.ADMIN;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -25,11 +27,13 @@ public class User implements UserDetails {
 
     private String username;
 
+    private String email;
+
     private String password;
 
-    private boolean active;
+    private String matchingPassword;
 
-    private String email;
+    private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))

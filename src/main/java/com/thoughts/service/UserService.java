@@ -1,5 +1,7 @@
 package com.thoughts.service;
 
+import com.thoughts.dto.UserCreateDto;
+import com.thoughts.mapper.UserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public User findById(Long id) {
         return userRepository.findById(id)
@@ -34,8 +37,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(UserCreateDto user) {
+        return Optional.of(user)
+                .map(userMapper::map)
+                .orElseThrow();
     }
 
     public Optional<User> update(Long id, User user) {
