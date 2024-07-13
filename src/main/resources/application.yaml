@@ -10,6 +10,17 @@ spring:
         hibernate:
           format_sql: true
     open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    post: 587
+    username: thoughts2024verific@gmail.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging:
     level:
@@ -23,3 +34,7 @@ logging:
 file:
   storage:
     location: file-storage
+
+email:
+  subject: Email address confirmation
+  messages: Click on the link to confirm your email address -
