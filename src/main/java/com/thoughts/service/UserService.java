@@ -1,10 +1,13 @@
 package com.thoughts.service;
 
 import com.thoughts.dto.CreateUserDto;
+import com.thoughts.exception.UserAlreadyExistException;
 import com.thoughts.mapper.UserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,10 +15,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
+
+    @Value("${email.subject}") private final String subject;
+    @Value("${email.messages}") private final String messages;
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -37,10 +44,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User save(CreateUserDto user) {
-        return Optional.of(user)
+    @SneakyThrows
+    public User registrationNewUser(CreateUserDto user) {
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email address:" + user.getEmail());
+        }
+        User saveUser = Optional.of(user)
                 .map(userMapper::map)
+                .map(userRepository::saveAndFlush)
                 .orElseThrow();
+        sendEmail(user);
+        return saveUser;
     }
 
     public Optional<User> update(Long id, User user) {
@@ -61,5 +75,20 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    private boolean emailExists(String email) {
+        return userRepository.findByEmail(email)
+                .isPresent();
+    }
+
+    private void sendEmail(CreateUserDto user) {
+        String token = getRandomToken();
+        String confirmationUrl = "http://localhost:8080/verify-email?token=" + token;
+        emailService.sendEmail(user.getEmail(), subject, messages);
+    }
+
+    private String getRandomToken() {
+        return UUID.randomUUID().toString();
     }
 }

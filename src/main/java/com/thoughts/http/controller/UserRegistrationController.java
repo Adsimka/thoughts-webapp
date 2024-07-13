@@ -32,7 +32,7 @@ public class UserRegistrationController {
 
 //        user.setActive(true);
 //        user.setRoles(Collections.singleton(Role.USER));
-        userService.save(user);
+        userService.registrationNewUser(user);
 
         return "redirect:/login";
     }
