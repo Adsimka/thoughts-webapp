@@ -38,9 +38,16 @@
                     <form th:action="@{/registration}" method="post" th:object="${user}">
                         <div class="form-group">
                             <label for="username">Username:</label>
-                            <input type="email" class="form-control" id="username" required>
+                            <input type="text" class="form-control" id="username" required>
                             <div class="invalid-feedback">
                                 Please enter username.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" required>
+                            <div class="invalid-feedback">
+                                Please enter email.
                             </div>
                         </div>
                         <div class="form-group">
