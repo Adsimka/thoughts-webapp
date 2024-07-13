@@ -1,6 +1,6 @@
 package com.thoughts.http.controller;
 
-import com.thoughts.dto.UserCreateDto;
+import com.thoughts.dto.CreateUserDto;
 import com.thoughts.model.User;
 import com.thoughts.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserRegistrationController {
     }
 
     @PostMapping
-    public String create(Model model, @ModelAttribute("user") UserCreateDto user) {
+    public String create(Model model, @ModelAttribute("user") CreateUserDto user) {
         User userFromDb = userService.findByUsername(user.getEmail());
 
         if (userFromDb != null) {

@@ -1,18 +1,17 @@
 package com.thoughts.mapper;
 
-import com.thoughts.dto.UserCreateDto;
+import com.thoughts.dto.CreateUserDto;
 import com.thoughts.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper implements Mapper<UserCreateDto, User> {
+public class UserMapper implements Mapper<CreateUserDto, User> {
 
     @Override
-    public User map(UserCreateDto object) {
+    public User map(CreateUserDto object) {
         return User.builder()
                 .username(object.getEmail())
                 .password(object.getPassword())
-                .matchingPassword(object.getMatchingPassword())
                 .build();
     }
 }

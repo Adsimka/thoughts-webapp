@@ -31,8 +31,6 @@ public class User implements UserDetails {
 
     private String password;
 
-    private String matchingPassword;
-
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

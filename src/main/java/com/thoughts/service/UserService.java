@@ -1,6 +1,6 @@
 package com.thoughts.service;
 
-import com.thoughts.dto.UserCreateDto;
+import com.thoughts.dto.CreateUserDto;
 import com.thoughts.mapper.UserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User save(UserCreateDto user) {
+    public User save(CreateUserDto user) {
         return Optional.of(user)
                 .map(userMapper::map)
                 .orElseThrow();
