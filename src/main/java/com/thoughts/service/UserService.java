@@ -28,6 +28,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final EmailService emailService;
 
     public List<User> getAllUsersWithRoles() {
         return userRepository.findAllWithRoles();
@@ -80,8 +81,8 @@ public class UserService implements UserDetailsService {
 
     private void sendEmail(CreateUserDto user) {
         String token = getRandomToken();
-        String confirmationUrl = "http://localhost:8080/verify-email?token=" + token;
-        emailService.sendEmail(user.getEmail(), subject, messages);
+        String confirmationUrl = String.format(messages, "http://localhost:8080/verify-email?token= %s", token);
+        emailService.sendEmail(user.getEmail(), subject, confirmationUrl);
     }
 
     private String getRandomToken() {
