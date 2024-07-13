@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 
     @Value("${email.subject}") private final String subject;
@@ -26,11 +28,6 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow();
-    }
 
     public List<User> getAllUsersWithRoles() {
         return userRepository.findAllWithRoles();
@@ -40,14 +37,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username);
     }
 
     @SneakyThrows
+    @Transactional
     public User registrationNewUser(CreateUserDto user) {
         if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException("There is an account with that email address:" + user.getEmail());
+            String messageException = String.format("There is an account with that email address: %s", user.getEmail());
+            throw new UserAlreadyExistException(messageException);
         }
         User saveUser = Optional.of(user)
                 .map(userMapper::map)
@@ -57,6 +57,7 @@ public class UserService implements UserDetailsService {
         return saveUser;
     }
 
+    @Transactional
     public Optional<User> update(Long id, User user) {
         return userRepository.findById(id)
                 .map(entity -> map(user, entity))
@@ -70,11 +71,6 @@ public class UserService implements UserDetailsService {
         entity.setRoles(user.getRoles());
 
         return entity;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
     }
 
     private boolean emailExists(String email) {
