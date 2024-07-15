@@ -17,21 +17,19 @@ public class UserRegistrationController {
 
     @GetMapping
     public String registration(Model model) {
+        model.addAttribute("user", new CreateUserDto());
         return "auth/registration";
     }
 
     @PostMapping
-    public String create(Model model, @ModelAttribute("user") CreateUserDto user) {
-        User userFromDb = userService.findByUsername(user.getEmail());
-
+    public String create(Model model,
+                         @ModelAttribute("user") CreateUserDto user) {
+        User userFromDb = userService.loadUserByUsername(user.getUsername());
         if (userFromDb != null) {
+//            TODO 13.07.2024 : Sending an existing username to the service
             model.addAttribute("message", "User exists!");
-
             return "auth/registration";
         }
-
-//        user.setActive(true);
-//        user.setRoles(Collections.singleton(Role.USER));
         userService.registrationNewUser(user);
 
         return "redirect:/login";

@@ -13,8 +13,9 @@ spring:
   mail:
     host: smtp.gmail.com
     post: 587
-    username: thoughts2024verific@gmail.com
-    password: qwer1234ty!A
+    protocol: smtps
+    username: arsenminnegulov@gmail.com
+    password:
     properties:
       mail:
         smtp:

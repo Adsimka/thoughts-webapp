@@ -10,7 +10,8 @@ public class UserMapper implements Mapper<CreateUserDto, User> {
     @Override
     public User map(CreateUserDto object) {
         return User.builder()
-                .username(object.getEmail())
+                .username(object.getUsername())
+                .email(object.getEmail())
                 .password(object.getPassword())
                 .build();
     }

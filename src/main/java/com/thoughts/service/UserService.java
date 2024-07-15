@@ -5,10 +5,8 @@ import com.thoughts.exception.UserAlreadyExistException;
 import com.thoughts.mapper.UserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,42 +17,57 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 
-    @Value("${email.subject}") private final String subject;
-    @Value("${email.messages}") private final String messages;
+    private final String subject;
+    private final String messages;
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final EmailService emailService;
 
+    public UserService(@Value("${email.subject}") String subject,
+                       @Value("${email.messages}") String messages,
+                       UserRepository userRepository,
+                       UserMapper userMapper,
+                       EmailService emailService) {
+        this.subject = subject;
+        this.messages = messages;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.emailService = emailService;
+    }
+
     public List<User> getAllUsersWithRoles() {
         return userRepository.findAllWithRoles();
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+//        if (user == null) {
+//            String exceptionMessage = String.format("No user found with username: %s", username);
+//            throw new UsernameNotFoundException(exceptionMessage);
+//        }
+
+        return user;
     }
 
     @SneakyThrows
     @Transactional
     public User registrationNewUser(CreateUserDto user) {
         if (emailExists(user.getEmail())) {
-            String messageException = String.format("There is an account with that email address: %s", user.getEmail());
-            throw new UserAlreadyExistException(messageException);
+            String exceptionMessage = String.format("There is an account with that email address: %s", user.getEmail());
+            throw new UserAlreadyExistException(exceptionMessage);
         }
         User saveUser = Optional.of(user)
                 .map(userMapper::map)
                 .map(userRepository::saveAndFlush)
                 .orElseThrow();
         sendEmail(user);
+
         return saveUser;
     }
 
@@ -81,7 +94,8 @@ public class UserService implements UserDetailsService {
 
     private void sendEmail(CreateUserDto user) {
         String token = getRandomToken();
-        String confirmationUrl = String.format(messages, "http://localhost:8080/verify-email?token= %s", token);
+//        TODO 14.07.2024 Fix String concat
+        String confirmationUrl = messages + " http://localhost:8080/verify-email?token=" + token;
         emailService.sendEmail(user.getEmail(), subject, confirmationUrl);
     }
 
