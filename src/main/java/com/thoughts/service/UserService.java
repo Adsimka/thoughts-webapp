@@ -8,7 +8,6 @@ import com.thoughts.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,16 +42,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAllWithRoles();
     }
 
-
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-//        if (user == null) {
-//            String exceptionMessage = String.format("No user found with username: %s", username);
-//            throw new UsernameNotFoundException(exceptionMessage);
-//        }
-
-        return user;
+    public User loadUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElse(null);
     }
 
     @SneakyThrows
@@ -62,11 +55,16 @@ public class UserService implements UserDetailsService {
             String exceptionMessage = String.format("There is an account with that email address: %s", user.getEmail());
             throw new UserAlreadyExistException(exceptionMessage);
         }
+        String token = getRandomToken();
         User saveUser = Optional.of(user)
                 .map(userMapper::map)
+                .map(u -> {
+                    u.setVerificationToken(token);
+                    return u;
+                })
                 .map(userRepository::saveAndFlush)
                 .orElseThrow();
-        sendEmail(user);
+        sendEmail(user, token);
 
         return saveUser;
     }
@@ -92,10 +90,9 @@ public class UserService implements UserDetailsService {
                 .isPresent();
     }
 
-    private void sendEmail(CreateUserDto user) {
-        String token = getRandomToken();
+    private void sendEmail(CreateUserDto user, String token) {
 //        TODO 14.07.2024 Fix String concat
-        String confirmationUrl = messages + " http://localhost:8080/verify-email?token=" + token;
+        String confirmationUrl = messages + " http://localhost:8080/registration/verify-email?token=" + token;
         emailService.sendEmail(user.getEmail(), subject, confirmationUrl);
     }
 
