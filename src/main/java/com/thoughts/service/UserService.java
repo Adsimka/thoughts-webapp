@@ -6,7 +6,10 @@ import com.thoughts.mapper.UserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final String subject;
@@ -42,17 +46,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findAllWithRoles();
     }
 
-    @Override
-    public User loadUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElse(null);
-    }
-
     @SneakyThrows
     @Transactional
-    public User registrationNewUser(CreateUserDto user) {
-        if (emailExists(user.getEmail())) {
-            String exceptionMessage = String.format("There is an account with that email address: %s", user.getEmail());
+    public void registrationNewUser(CreateUserDto user) {
+        if (emailUsernameExists(user.getUsername(), user.getEmail())) {
+            String exceptionMessage = String.format("There is an account with that username/email address: %s",
+                    user.getEmail());
+            log.info(exceptionMessage);
+
             throw new UserAlreadyExistException(exceptionMessage);
         }
         String token = getRandomToken();
@@ -64,9 +65,9 @@ public class UserService implements UserDetailsService {
                 })
                 .map(userRepository::saveAndFlush)
                 .orElseThrow();
-        sendEmail(user, token);
+        log.info("The user with the {} has been successfully added to the system (without activation)", user.getEmail());
 
-        return saveUser;
+        sendEmail(user, token);
     }
 
     @Transactional
@@ -85,8 +86,8 @@ public class UserService implements UserDetailsService {
         return entity;
     }
 
-    private boolean emailExists(String email) {
-        return userRepository.findByEmail(email)
+    private boolean emailUsernameExists(String username, String email) {
+        return userRepository.findByUsernameAndEmail(username, email)
                 .isPresent();
     }
 
@@ -98,5 +99,11 @@ public class UserService implements UserDetailsService {
 
     private String getRandomToken() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow();
     }
 }
