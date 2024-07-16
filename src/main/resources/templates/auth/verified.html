@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thoughts - Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <style>
+        .brand-title {
+            font-size: 3rem;
+        }
+        .brand-subtitle {
+            font-size: 3rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/login">
+            <span class="brand-title">Thoughts</span>
+            <span class="brand-subtitle">Account</span>
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div th:if="${successMessage}" class="alert alert-success text-center" role="alert">
+                <h4 class="alert-heading">Verification Successful!</h4>
+                <p th:text="${successMessage}"></p>
+                <hr>
+                <a class="btn btn-primary mt-3" href="/login">Login</a>
+            </div>
+
+            <div th:if="${failMessage}" class="alert alert-danger text-center" role="alert">
+                <h4 class="alert-heading">Verification Failed!</h4>
+                <p th:text="${failMessage}"></p>
+                <hr>
+                <p class="mb-0">Please try again.</p>
+                <a class="btn btn-primary mt-3" href="/registration">Try Again</a>
+                <a class="btn btn-secondary mt-3" href="/login">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy2FZfBvEf29JvnehA6ZHDSD6S/Qq4s6wU"
+        crossorigin="anonymous"></script>
+</body>
+</html>

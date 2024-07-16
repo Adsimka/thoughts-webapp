@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;

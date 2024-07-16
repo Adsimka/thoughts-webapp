@@ -26,17 +26,18 @@ public class UserRegistrationController {
     public String registerUserAccount(Model model,
                          @ModelAttribute("user") CreateUserDto user) {
         userService.registrationNewUser(user);
-        return "redirect:/login";
+        return "auth/check-email";
     }
 
     @GetMapping("/verify-email")
     public String verifyEmail(@RequestParam("token") String token,
                               Model model) {
         if (tokenService.validateVerificationToken(token)) {
-            model.addAttribute("message", "Your account has been verified successfully.");
-            return "redirect:/login";
+            model.addAttribute("successMessage", "Your account has been verified successfully.");
+        } else {
+            model.addAttribute("failMessage", "Invalid verification token.");
         }
-        model.addAttribute("message", "Invalid verification token.");
-        return "redirect:/registration";
+
+        return "auth/verified";
     }
 }
