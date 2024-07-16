@@ -21,7 +21,7 @@ public class Message {
 
     private String tag;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 

@@ -26,15 +26,11 @@ public class MessageService {
 
     private static final String DOT = ".";
 
-    public List<Message> findAll() {
-        return messageRepository.findAll();
-    }
-
     public List<Message> findAll(String tag) {
         if (tag != null && !tag.isEmpty()) {
             return messageRepository.findByTag(tag);
         }
-        return messageRepository.findAll();
+        return messageRepository.findAllWithAuthors();
     }
 
     @Transactional
