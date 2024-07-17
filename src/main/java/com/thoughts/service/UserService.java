@@ -82,10 +82,16 @@ public class UserService implements UserDetailsService {
                 .map(userRepository::saveAndFlush);
     }
 
+    @Transactional
     public Optional<ReadUserDto> updateProfile(Long id, CreateUserDto user) {
         return userRepository.findById(id)
                 .map(u -> createUserMapper.map(user, u))
                 .map(userRepository::saveAndFlush)
+                .map(readUserMapper::map);
+    }
+
+    public Optional<ReadUserDto> findById(Long id) {
+        return userRepository.findById(id)
                 .map(readUserMapper::map);
     }
 
