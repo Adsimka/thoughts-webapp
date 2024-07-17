@@ -1,6 +1,6 @@
 package com.thoughts.http.controller;
 
-import com.thoughts.dto.CreateUserDto;
+import com.thoughts.dto.user.CreateUserDto;
 import com.thoughts.service.UserService;
 import com.thoughts.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,6 @@ public class UserRegistrationController {
         } else {
             model.addAttribute("failMessage", "Invalid verification token.");
         }
-
         return "auth/verified";
     }
 }

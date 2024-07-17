@@ -1,6 +1,6 @@
 package com.thoughts.http.controller;
 
-import com.thoughts.dto.MessageDto;
+import com.thoughts.dto.message.MessageDto;
 import com.thoughts.model.User;
 import com.thoughts.service.MessageService;
 import lombok.RequiredArgsConstructor;

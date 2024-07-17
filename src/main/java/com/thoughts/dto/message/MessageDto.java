@@ -1,4 +1,4 @@
-package com.thoughts.dto;
+package com.thoughts.dto.message;
 
 import com.thoughts.model.User;
 import jakarta.validation.constraints.NotEmpty;

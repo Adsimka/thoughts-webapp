@@ -1,6 +1,6 @@
 package com.thoughts.service;
 
-import com.thoughts.dto.MessageDto;
+import com.thoughts.dto.message.MessageDto;
 import com.thoughts.mapper.MessageMapper;
 import com.thoughts.model.Message;
 import com.thoughts.model.User;

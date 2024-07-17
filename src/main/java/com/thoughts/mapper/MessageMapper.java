@@ -1,6 +1,6 @@
 package com.thoughts.mapper;
 
-import com.thoughts.dto.MessageDto;
+import com.thoughts.dto.message.MessageDto;
 import com.thoughts.model.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

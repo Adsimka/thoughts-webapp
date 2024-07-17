@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String users(Model model) {
         var users = userService.getAllUsersWithRoles();
         model.addAttribute("users", users);
@@ -26,7 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/{user}")
-    public String userEditProfile(Model model,
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String showUserEditProfile(Model model,
                                   @PathVariable("user") User user) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
@@ -35,11 +36,19 @@ public class UserController {
     }
 
     @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String userEditProfile(@PathVariable("id") Long id,
                                   @ModelAttribute User user) {
         userService.update(id, user);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/{id}")
+    public String showUserEditForm(Model model,
+                                   @PathVariable("id") Long id) {
+//        TODO
+        return "users/profile";
     }
 }
 

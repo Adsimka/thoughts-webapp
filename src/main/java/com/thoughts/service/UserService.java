@@ -1,8 +1,8 @@
 package com.thoughts.service;
 
-import com.thoughts.dto.CreateUserDto;
+import com.thoughts.dto.user.CreateUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
-import com.thoughts.mapper.UserMapper;
+import com.thoughts.mapper.CreateUserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.SneakyThrows;
@@ -26,18 +26,18 @@ public class UserService implements UserDetailsService {
     private final String messages;
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final CreateUserMapper createUserMapper;
     private final EmailService emailService;
 
     public UserService(@Value("${email.subject}") String subject,
                        @Value("${email.messages}") String messages,
                        UserRepository userRepository,
-                       UserMapper userMapper,
+                       CreateUserMapper createUserMapper,
                        EmailService emailService) {
         this.subject = subject;
         this.messages = messages;
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
+        this.createUserMapper = createUserMapper;
         this.emailService = emailService;
     }
 
@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         }
         String token = getRandomToken();
         User saveUser = Optional.of(user)
-                .map(userMapper::map)
+                .map(createUserMapper::map)
                 .map(u -> {
                     u.setVerificationToken(token);
                     return u;
