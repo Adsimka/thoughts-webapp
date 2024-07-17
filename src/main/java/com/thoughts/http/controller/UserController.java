@@ -39,7 +39,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String userEditProfile(@PathVariable("id") Long id,
                                   @ModelAttribute User user) {
-        userService.update(id, user);
+        userService.updateUserByAdmin(id, user);
 
         return "redirect:/users";
     }

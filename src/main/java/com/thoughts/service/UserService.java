@@ -1,13 +1,16 @@
 package com.thoughts.service;
 
 import com.thoughts.dto.user.CreateUserDto;
+import com.thoughts.dto.user.ReadUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
 import com.thoughts.mapper.CreateUserMapper;
+import com.thoughts.mapper.ReadUserMapper;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -27,17 +30,20 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final CreateUserMapper createUserMapper;
+    private final ReadUserMapper readUserMapper;
     private final EmailService emailService;
 
     public UserService(@Value("${email.subject}") String subject,
                        @Value("${email.messages}") String messages,
                        UserRepository userRepository,
                        CreateUserMapper createUserMapper,
+                       ReadUserMapper readUserMapper,
                        EmailService emailService) {
         this.subject = subject;
         this.messages = messages;
         this.userRepository = userRepository;
         this.createUserMapper = createUserMapper;
+        this.readUserMapper = readUserMapper;
         this.emailService = emailService;
     }
 
@@ -70,10 +76,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<User> update(Long id, User user) {
+    public Optional<User> updateUserByAdmin(Long id, User user) {
         return userRepository.findById(id)
                 .map(entity -> map(user, entity))
                 .map(userRepository::saveAndFlush);
+    }
+
+    public Optional<ReadUserDto> updateProfile(Long id, CreateUserDto user) {
+        return userRepository.findById(id)
+                .map(u -> createUserMapper.map(user, u))
+                .map(userRepository::saveAndFlush)
+                .map(readUserMapper::map);
     }
 
     private User map(User user, User entity) {

@@ -15,4 +15,12 @@ public class CreateUserMapper implements Mapper<CreateUserDto, User> {
                 .password(object.getPassword())
                 .build();
     }
+
+    public User map(CreateUserDto object, User user) {
+        user.setUsername(object.getUsername());
+        user.setEmail(user.getEmail());
+        user.setPassword(user.getPassword());
+
+        return user;
+    }
 }
