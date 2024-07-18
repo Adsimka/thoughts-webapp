@@ -37,9 +37,11 @@
                                 <a class="nav-link active" aria-current="page" href="/users">Users</a>
                             </li>
                         </div>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/users/profile">Profile</a>
-                        </li>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link active" aria-current="page" th:href="@{/users/profile/{id}(id=${user.id})}">Profile</a>-->
+<!--                        </li>-->
                     </div>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

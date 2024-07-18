@@ -7,20 +7,21 @@
     <div th:replace="~{base.html :: navbar}"></div>
     <div th:replace="~{base.html :: contentWrapper}">
         <th:block th:fragment="content">
-            <h1>All users</h1>
-            <div>
-                <table>
-                    <thead>
+            <h1>All Users</h1>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
                     <tr>
                         <th>Name</th>
                         <th>Role</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}">
                         <td th:text="${user.username}"></td>
                         <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
-                        <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+                        <td><a th:href="@{/users/admin/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit</a></td>
                     </tr>
                     </tbody>
                 </table>

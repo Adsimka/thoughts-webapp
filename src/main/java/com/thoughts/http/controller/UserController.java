@@ -28,7 +28,7 @@ public class UserController {
         return "users/users";
     }
 
-    @GetMapping("/{user}")
+    @GetMapping("/admin/{user}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showUserEditProfile(Model model,
                                   @PathVariable("user") User user) {
@@ -38,7 +38,7 @@ public class UserController {
         return "users/edit";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String userEditProfile(@PathVariable("id") Long id,
                                   @ModelAttribute User user) {
@@ -47,7 +47,7 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}")
     public String showUserEditForm(Model model,
                                    @PathVariable("id") Long id) {
         return userService.findById(id)
@@ -58,7 +58,7 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("profile/{id}")
     public String updateUserProfile(@PathVariable("id") Long id,
                                     @ModelAttribute CreateUserDto user) {
         return userService.updateProfile(id, user)
