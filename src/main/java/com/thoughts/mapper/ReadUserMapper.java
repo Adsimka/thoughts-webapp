@@ -10,6 +10,7 @@ public class ReadUserMapper implements Mapper<User, ReadUserDto> {
     @Override
     public ReadUserDto map(User object) {
         return ReadUserDto.builder()
+                .id(object.getId())
                 .username(object.getUsername())
                 .password(object.getPassword())
                 .build();

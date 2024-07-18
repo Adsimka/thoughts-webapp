@@ -58,11 +58,11 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("profile/{id}")
+    @PostMapping("/profile/{id}")
     public String updateUserProfile(@PathVariable("id") Long id,
                                     @ModelAttribute CreateUserDto user) {
         return userService.updateProfile(id, user)
-                .map(readUserDto -> "redirect:/users/id")
+                .map(readUserDto -> "redirect:/users/profile/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

@@ -11,6 +11,10 @@ public class ReadUserDto {
 
     @NotNull
     @NotEmpty
+    Long id;
+
+    @NotNull
+    @NotEmpty
     String username;
 
     @NotNull
