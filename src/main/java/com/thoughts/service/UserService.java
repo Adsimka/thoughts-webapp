@@ -5,20 +5,18 @@ import com.thoughts.dto.user.ReadUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
 import com.thoughts.mapper.CreateUserMapper;
 import com.thoughts.mapper.ReadUserMapper;
+import com.thoughts.model.Role;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -62,10 +60,11 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException(exceptionMessage);
         }
         String token = getRandomToken();
-        User saveUser = Optional.of(user)
+        Optional.of(user)
                 .map(createUserMapper::map)
                 .map(u -> {
                     u.setVerificationToken(token);
+                    u.setRoles(Collections.singleton(Role.USER));
                     return u;
                 })
                 .map(userRepository::saveAndFlush)
