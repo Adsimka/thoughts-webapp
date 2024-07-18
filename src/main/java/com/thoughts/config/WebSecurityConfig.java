@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,6 +51,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder(8);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userService) throws Exception {
         var authenticationManagerBuilder = http
                 .getSharedObject(AuthenticationManagerBuilder.class);
@@ -60,6 +67,6 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return passwordEncoder;
     }
 }
