@@ -9,7 +9,7 @@
         <th:block th:fragment="content">
             <h1>User edit profile</h1>
 
-            <form th:action="@{/users/{userId}(userId=${user.id})}" method="post" th:object="${user}">
+            <form th:action="@{/users/admin/{userId}(userId=${user.id})}" method="post" th:object="${user}">
                 <label for="username">Username:
                     <input id="username" type="text" name="username" th:value="${user.username}">
                 </label><br>
