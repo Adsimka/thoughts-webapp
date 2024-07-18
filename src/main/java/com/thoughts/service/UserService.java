@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,23 +30,27 @@ public class UserService implements UserDetailsService {
     private final String subject;
     private final String messages;
 
-    private final UserRepository userRepository;
     private final CreateUserMapper createUserMapper;
     private final ReadUserMapper readUserMapper;
+
+    private final UserRepository userRepository;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(@Value("${email.subject}") String subject,
                        @Value("${email.messages}") String messages,
                        UserRepository userRepository,
                        CreateUserMapper createUserMapper,
                        ReadUserMapper readUserMapper,
-                       EmailService emailService) {
+                       EmailService emailService,
+                       PasswordEncoder passwordEncoder) {
         this.subject = subject;
         this.messages = messages;
         this.userRepository = userRepository;
         this.createUserMapper = createUserMapper;
         this.readUserMapper = readUserMapper;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsersWithRoles() {
@@ -68,6 +73,7 @@ public class UserService implements UserDetailsService {
                 .map(u -> {
                     u.setVerificationToken(token);
                     u.setRoles(Collections.singleton(Role.USER));
+                    u.setPassword(passwordEncoder.encode(u.getPassword()));
                     return u;
                 })
                 .map(userRepository::saveAndFlush)
