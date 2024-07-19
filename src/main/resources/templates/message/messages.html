@@ -13,13 +13,15 @@
                 Add new message
             </a>
         </p>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" th:classappend="${message != null} ? ' show' : ''" id="collapseExample">
             <div class="card card-body">
                 <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data"
                       class="mt-4">
                     <div class="mb-3">
                         <label for="text" class="form-label">Text:</label>
                         <input type="text" id="text" name="text" class="form-control" required>
+                        <p th:if="${fields.hasErrors('text')}}" th:errorclass="error"
+                           th:errors="*{text}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">Tag:</label>
@@ -30,6 +32,9 @@
                         <input type="file" id="image" name="image" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Create Message</button>
+                    <div th:if="${errors}">
+                        <p style="color: red" th:each="error : ${errors}" th:text="${error}">Error messages</p>
+                    </div>
                 </form>
             </div>
         </div>

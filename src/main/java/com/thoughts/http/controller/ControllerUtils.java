@@ -3,17 +3,19 @@ package com.thoughts.http.controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ControllerUtils {
 
-    static Map<String, String> getErrorsMap(BindingResult bindingResult) {
-        Map<String, String> errorsMap = bindingResult.getFieldErrors().stream()
+    public static Map<String, String> getErrorsMap(BindingResult bindingResult) {
+        return bindingResult.getFieldErrors().stream()
                 .collect(Collectors.toMap(
-                        fieldError -> fieldError.getField() + " Error",
-                        FieldError::getDefaultMessage
+                        FieldError::getField,
+                        FieldError::getDefaultMessage,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
                 ));
-        return errorsMap;
     }
 }
