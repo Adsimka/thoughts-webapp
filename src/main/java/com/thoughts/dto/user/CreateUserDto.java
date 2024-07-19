@@ -1,8 +1,8 @@
 package com.thoughts.dto.user;
 
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,16 +14,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateUserDto {
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Username cannot be empty")
     String username;
 
-    @NotNull
-    @NotEmpty
-    @Email
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email is not correct")
     String email;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Password cannot be empty")
     String password;
+
+    @Transient
+    @NotBlank(message = "Password confirmation cannot be empty")
+    String matchingPassword;
 }

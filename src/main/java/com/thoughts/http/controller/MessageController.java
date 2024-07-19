@@ -3,6 +3,7 @@ package com.thoughts.http.controller;
 import com.thoughts.dto.message.MessageDto;
 import com.thoughts.model.User;
 import com.thoughts.service.MessageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class MessageController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("message") MessageDto message,
+    public String create(@ModelAttribute("message") @Valid MessageDto message,
                          @AuthenticationPrincipal User user) {
         if (user != null) {
             messageService.create(message, user);
