@@ -1,18 +1,16 @@
 package com.thoughts.http.controller;
 
-import com.thoughts.dto.message.MessageDto;
+import com.thoughts.dto.message.CreateMessageDto;
 import com.thoughts.model.User;
 import com.thoughts.service.MessageService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping
-    public String findByAll(Model model,
+    public String showMessageForm(Model model,
                             @RequestParam(required = false, defaultValue = "") String tag) {
         var messages = messageService.findAll(tag);
         model.addAttribute("messages", messages);
@@ -31,18 +29,19 @@ public class MessageController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("message") @Valid MessageDto message,
+    public String create(@ModelAttribute("message") @Validated CreateMessageDto message,
                          BindingResult bindingResult,
-                         @AuthenticationPrincipal User user,
-                         Model model) {
+                         RedirectAttributes redirectAttributes,
+                         @AuthenticationPrincipal User user) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", message);
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         } else {
             if (user != null) {
                 messageService.create(message, user);
             }
         }
 
-        return "message/messages";
+        return "redirect:/messages";
     }
 }

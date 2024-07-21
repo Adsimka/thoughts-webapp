@@ -3,8 +3,8 @@ package com.thoughts.service;
 import com.thoughts.dto.user.CreateUserDto;
 import com.thoughts.dto.user.ReadUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
-import com.thoughts.mapper.CreateUserMapper;
-import com.thoughts.mapper.ReadUserMapper;
+import com.thoughts.mapper.user.CreateUserMapper;
+import com.thoughts.mapper.user.ReadUserMapper;
 import com.thoughts.model.Role;
 import com.thoughts.model.User;
 import com.thoughts.repository.UserRepository;
@@ -63,8 +63,6 @@ public class UserService implements UserDetailsService {
         if (emailUsernameExists(user.getUsername(), user.getEmail())) {
             String exceptionMessage = String.format("There is an account with that username/email address: %s",
                     user.getEmail());
-            log.info(exceptionMessage);
-
             throw new UserAlreadyExistException(exceptionMessage);
         }
         String token = getRandomToken();

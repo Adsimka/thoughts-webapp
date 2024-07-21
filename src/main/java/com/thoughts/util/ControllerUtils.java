@@ -1,4 +1,4 @@
-package com.thoughts.http.controller;
+package com.thoughts.util;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

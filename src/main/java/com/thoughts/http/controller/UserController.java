@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String users(Model model) {
+    public String showUserEdit(Model model) {
         var users = userService.getAllUsersWithRoles();
         model.addAttribute("users", users);
 
@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String userEditProfile(@PathVariable("id") Long id,
-                                  @ModelAttribute User user) {
+                                  @ModelAttribute("user") User user) {
         return userService.updateUserByAdmin(id, user)
                 .map(u -> "redirect:/users")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

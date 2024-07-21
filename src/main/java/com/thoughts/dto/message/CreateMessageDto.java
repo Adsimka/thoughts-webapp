@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Value
 @Builder
-public class MessageDto {
+public class CreateMessageDto {
 
     @NotBlank(message = "Please fill the message")
     @Length(max = 2048, message = "Message too long!")

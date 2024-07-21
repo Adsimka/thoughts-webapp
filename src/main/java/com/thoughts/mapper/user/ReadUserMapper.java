@@ -1,6 +1,7 @@
-package com.thoughts.mapper;
+package com.thoughts.mapper.user;
 
 import com.thoughts.dto.user.ReadUserDto;
+import com.thoughts.mapper.Mapper;
 import com.thoughts.model.User;
 import org.springframework.stereotype.Component;
 

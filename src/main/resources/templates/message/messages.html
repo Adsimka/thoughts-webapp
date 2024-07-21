@@ -19,13 +19,11 @@
                       class="mt-4">
                     <div class="mb-3">
                         <label for="text" class="form-label">Text:</label>
-                        <input type="text" id="text" name="text" class="form-control" required>
-                        <p th:if="${fields.hasErrors('text')}}" th:errorclass="error"
-                           th:errors="*{text}"></p>
+                        <input type="text" id="text" name="text" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">Tag:</label>
-                        <input type="text" id="tag" name="tag" class="form-control" required>
+                        <input type="text" id="tag" name="tag" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Image:</label>
