@@ -40,4 +40,7 @@ file:
 
 email:
   subject: Email address confirmation
-  messages: Click on the link to confirm your email address -
+  messages: Click on the link to confirm your email address
+
+link:
+  verify: http://localhost:8080/registration/verify-email?token=

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService {
 
     private final String subject;
     private final String messages;
+    private final String verifyEmail;
 
     private final CreateUserMapper createUserMapper;
     private final ReadUserMapper readUserMapper;
@@ -39,6 +41,7 @@ public class UserService implements UserDetailsService {
 
     public UserService(@Value("${email.subject}") String subject,
                        @Value("${email.messages}") String messages,
+                       @Value("${link.verify}") String verifyEmail,
                        UserRepository userRepository,
                        CreateUserMapper createUserMapper,
                        ReadUserMapper readUserMapper,
@@ -46,6 +49,7 @@ public class UserService implements UserDetailsService {
                        PasswordEncoder passwordEncoder) {
         this.subject = subject;
         this.messages = messages;
+        this.verifyEmail = verifyEmail;
         this.userRepository = userRepository;
         this.createUserMapper = createUserMapper;
         this.readUserMapper = readUserMapper;
@@ -116,8 +120,7 @@ public class UserService implements UserDetailsService {
     }
 
     private void sendEmail(CreateUserDto user, String token) {
-//        TODO 14.07.2024 Fix String concat
-        String confirmationUrl = messages + " http://localhost:8080/registration/verify-email?token=" + token;
+        String confirmationUrl = String.format("%s - %s%s", messages, verifyEmail, token);
         emailService.sendEmail(user.getEmail(), subject, confirmationUrl);
     }
 
@@ -126,7 +129,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow();
     }
