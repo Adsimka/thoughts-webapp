@@ -25,6 +25,10 @@ public class MessageController {
         var messages = messageService.findAll(tag);
         model.addAttribute("messages", messages);
 
+        if (!model.containsAttribute("message")) {
+            model.addAttribute("message", new CreateMessageDto());
+        }
+
         return "message/messages";
     }
 
@@ -35,7 +39,7 @@ public class MessageController {
                          @AuthenticationPrincipal User user) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("message", message);
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.message", bindingResult);
         } else {
             if (user != null) {
                 messageService.create(message, user);

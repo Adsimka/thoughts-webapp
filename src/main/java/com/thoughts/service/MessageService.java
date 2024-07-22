@@ -1,7 +1,9 @@
 package com.thoughts.service;
 
 import com.thoughts.dto.message.CreateMessageDto;
+import com.thoughts.dto.message.ReadMessageDto;
 import com.thoughts.mapper.message.CreateMessageMapper;
+import com.thoughts.mapper.message.ReadMessageMapper;
 import com.thoughts.model.Message;
 import com.thoughts.model.User;
 import com.thoughts.repository.MessageRepository;
@@ -26,14 +28,20 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final ImageService imageService;
+
     private final CreateMessageMapper createMessageMapper;
+    private final ReadMessageMapper readMessageMapper;
 
 
-    public List<Message> findAll(String tag) {
+    public List<ReadMessageDto> findAll(String tag) {
         if (tag != null && !tag.isEmpty()) {
-            return messageRepository.findByTag(tag);
+            return messageRepository.findByTag(tag).stream()
+                    .map(readMessageMapper::map)
+                    .toList();
         }
-        return messageRepository.findAllWithAuthors();
+        return messageRepository.findAllWithAuthors().stream()
+                .map(readMessageMapper::map)
+                .toList();
     }
 
     @Transactional

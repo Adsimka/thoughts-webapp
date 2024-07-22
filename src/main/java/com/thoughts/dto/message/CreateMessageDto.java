@@ -2,13 +2,17 @@ package com.thoughts.dto.message;
 
 import com.thoughts.model.User;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateMessageDto {
 
     @NotBlank(message = "Please fill the message")
