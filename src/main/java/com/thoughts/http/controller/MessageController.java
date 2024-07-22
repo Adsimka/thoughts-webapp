@@ -21,7 +21,7 @@ public class MessageController {
 
     @GetMapping
     public String showMessageForm(Model model,
-                            @RequestParam(required = false, defaultValue = "") String tag) {
+                                  @RequestParam(required = false, defaultValue = "") String tag) {
         var messages = messageService.findAll(tag);
         model.addAttribute("messages", messages);
 
@@ -39,7 +39,10 @@ public class MessageController {
                          @AuthenticationPrincipal User user) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("message", message);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.message", bindingResult);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.message",
+                    bindingResult
+            );
         } else {
             if (user != null) {
                 messageService.create(message, user);

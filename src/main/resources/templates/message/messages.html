@@ -15,20 +15,24 @@
         </p>
         <div class="collapse" th:classappend="${message != null} ? ' show' : ''" id="collapseExample">
             <div class="card card-body">
-                <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data" class="mt-4">
+                <form method="post" th:action="@{/messages}" th:object="${message}" enctype="multipart/form-data"
+                      class="mt-4">
                     <div class="mb-3">
                         <label for="text" class="form-label">Text:</label>
-                        <input type="text" id="text" name="text" class="form-control" th:classappend="${#fields.hasErrors('text')} ? ' is-invalid' : ''">
+                        <input type="text" id="text" name="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('text')} ? ' is-invalid' : ''">
                         <div th:if="${#fields.hasErrors('text')}" class="invalid-feedback" th:errors="*{text}"></div>
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">Tag:</label>
-                        <input type="text" id="tag" name="tag" class="form-control" th:classappend="${#fields.hasErrors('tag')} ? ' is-invalid' : ''">
+                        <input type="text" id="tag" name="tag" class="form-control"
+                               th:classappend="${#fields.hasErrors('tag')} ? ' is-invalid' : ''">
                         <div th:if="${#fields.hasErrors('tag')}" class="invalid-feedback" th:errors="*{tag}"></div>
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Image:</label>
-                        <input type="file" id="image" name="image" class="form-control" th:classappend="${#fields.hasErrors('image')} ? ' is-invalid' : ''">
+                        <input type="file" id="image" name="image" class="form-control"
+                               th:classappend="${#fields.hasErrors('image')} ? ' is-invalid' : ''">
                         <div th:if="${#fields.hasErrors('image')}" class="invalid-feedback" th:errors="*{image}"></div>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Message</button>

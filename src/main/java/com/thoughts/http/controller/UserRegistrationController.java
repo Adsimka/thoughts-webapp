@@ -6,7 +6,10 @@ import com.thoughts.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,13 +21,32 @@ public class UserRegistrationController {
 
     @GetMapping
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new CreateUserDto());
+        if (!model.containsAttribute("user")) {
+            model.addAttribute("user", new CreateUserDto());
+        }
         return "auth/registration";
     }
 
     @PostMapping
-    public String registerUserAccount(Model model,
-                         @ModelAttribute("user") CreateUserDto user) {
+    public String registerUserAccount(@Validated @ModelAttribute("user") CreateUserDto user,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes) {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            bindingResult.rejectValue(
+                    "confirmPassword",
+                    "user.confirmPassword",
+                    "Passwords do not match"
+            );
+        }
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("user", user);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.user",
+                    bindingResult
+            );
+            System.err.println(bindingResult.getAllErrors());
+            return "redirect:/registration";
+        }
         userService.registrationNewUser(user);
         return "auth/check-email";
     }

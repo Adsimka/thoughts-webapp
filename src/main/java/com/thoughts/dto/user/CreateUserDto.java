@@ -1,6 +1,5 @@
 package com.thoughts.dto.user;
 
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,6 @@ public class CreateUserDto {
     @NotBlank(message = "Password cannot be empty")
     String password;
 
-    @Transient
     @NotBlank(message = "Password confirmation cannot be empty")
-    String matchingPassword;
+    String confirmPassword;
 }
