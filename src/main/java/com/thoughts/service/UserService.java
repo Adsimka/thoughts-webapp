@@ -65,8 +65,10 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void registrationNewUser(CreateUserDto user) {
         if (emailUsernameExists(user.getUsername(), user.getEmail())) {
-            String exceptionMessage = String.format("There is an account with that username/email address: %s",
-                    user.getEmail());
+            String exceptionMessage = String.format(
+                    "There is an account with that username/email address: %s",
+                    user.getEmail()
+            );
             throw new UserAlreadyExistException(exceptionMessage);
         }
         String token = getRandomToken();
@@ -80,7 +82,10 @@ public class UserService implements UserDetailsService {
                 })
                 .map(userRepository::saveAndFlush)
                 .orElseThrow();
-        log.info("The user with the {} has been successfully added to the system (without activation)", user.getEmail());
+        log.info(
+                "The user with the {} has been successfully added to the system (without activation)",
+                user.getEmail()
+        );
 
         sendEmail(user, token);
     }

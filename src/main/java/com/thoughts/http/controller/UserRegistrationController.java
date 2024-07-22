@@ -55,9 +55,15 @@ public class UserRegistrationController {
     public String verifyEmail(@RequestParam("token") String token,
                               Model model) {
         if (tokenService.validateVerificationToken(token)) {
-            model.addAttribute("successMessage", "Your account has been verified successfully.");
+            model.addAttribute(
+                    "successMessage",
+                    "Your account has been verified successfully."
+            );
         } else {
-            model.addAttribute("failMessage", "Invalid verification token.");
+            model.addAttribute(
+                    "failMessage",
+                    "Invalid verification token."
+            );
         }
         return "auth/verified";
     }

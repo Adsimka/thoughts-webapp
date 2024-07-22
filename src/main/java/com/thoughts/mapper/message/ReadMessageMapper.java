@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Component
 public class ReadMessageMapper implements Mapper<Message, ReadMessageDto> {
+
     @Override
     public ReadMessageDto map(Message object) {
         return ReadMessageDto.builder()

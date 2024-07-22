@@ -22,8 +22,6 @@ public class VerificationTokenService {
         user.setActive(true);
         userRepository.save(user);
 
-        log.info("User with {} successfully completed the verification", user.getEmail());
-
         return true;
     }
 }
