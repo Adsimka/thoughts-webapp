@@ -62,6 +62,23 @@
             <optional>true</optional>
         </dependency>
 
+        <!--  JaxB-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+
         <!-- Data source -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
