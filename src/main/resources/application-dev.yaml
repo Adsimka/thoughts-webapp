@@ -36,11 +36,11 @@ logging:
 
 file:
   storage:
-    location: Users/adsima/uploads
+    location: file-storage
 
 email:
   subject: Email address confirmation
   messages: Click on the link to confirm your email address
 
 link:
-  verify: http://192.168.0.102/registration/verify-email?token=
+  verify: http://localhost:8080/registration/verify-email?token=
