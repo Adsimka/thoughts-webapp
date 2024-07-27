@@ -51,4 +51,13 @@ public class MessageController {
 
         return "redirect:/messages";
     }
+
+    @GetMapping("/{id}")
+    public String showMessageEditForm(Model model,
+                                      @PathVariable("id") Long id) {
+        var messages = messageService.findAllByAuthorId(id);
+        model.addAttribute("messages", messages);
+
+        return "message/edit";
+    }
 }

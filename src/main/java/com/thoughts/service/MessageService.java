@@ -44,6 +44,12 @@ public class MessageService {
                 .toList();
     }
 
+    public List<ReadMessageDto> findAllByAuthorId(Long id) {
+        return messageRepository.findAllByAuthorId(id).stream()
+                .map(readMessageMapper::map)
+                .toList();
+    }
+
     @Transactional
     public Message create(CreateMessageDto createMessageDto,
                           User user) {

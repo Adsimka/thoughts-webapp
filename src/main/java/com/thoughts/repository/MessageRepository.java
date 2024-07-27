@@ -13,4 +13,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query("SELECT m FROM Message m JOIN FETCH m.author ORDER BY m.id DESC")
     List<Message> findAllWithAuthors();
+
+    @Query("SELECT m FROM Message m JOIN FETCH m.author WHERE m.author.id = :id ORDER BY m.id DESC")
+    List<Message> findAllByAuthorId(Long id);
 }
