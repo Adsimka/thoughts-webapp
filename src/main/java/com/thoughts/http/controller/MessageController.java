@@ -23,7 +23,7 @@ public class MessageController {
     public String showMessageForm(Model model,
                                   @RequestParam(required = false, defaultValue = "") String tag) {
         var messages = messageService.findAll(tag);
-            model.addAttribute("messages", messages);
+        model.addAttribute("messages", messages);
 
         if (!model.containsAttribute("message")) {
             model.addAttribute("message", new CreateMessageDto());
@@ -44,9 +44,7 @@ public class MessageController {
                     bindingResult
             );
         } else {
-            if (user != null) {
-                messageService.create(message, user);
-            }
+            messageService.create(message, user);
         }
 
         return "redirect:/messages";
@@ -58,6 +56,6 @@ public class MessageController {
         var messages = messageService.findAllByAuthorId(id);
         model.addAttribute("messages", messages);
 
-        return "message/edit";
+        return "message/my_messages";
     }
 }

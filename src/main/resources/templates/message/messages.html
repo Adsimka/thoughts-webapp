@@ -59,7 +59,8 @@
                         </div>
                         <div class="card-body">
                             <span th:text="${message.text}"></span>
-                            <em th:text="${message.tag}"></em>
+                            <br>
+                            <em th:text="'#' + ${message.tag}" style="font-style: italic; margin-left: 5px;"></em>
                         </div>
                         <div class="card-footer">
                             <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
