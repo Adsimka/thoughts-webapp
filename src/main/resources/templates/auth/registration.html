@@ -41,7 +41,7 @@
                             <input type="text" id="username" name="username" class="form-control"
                                    th:value="${user.username}"
                                    th:classappend="${#fields.hasErrors('username')} ? ' is-invalid' : ''"
-                                   placeholder="Please enter a valid username.">
+                                   placeholder="Please enter username">
                             <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback"
                                  th:errors="*{username}"></div>
                         </div>
@@ -50,7 +50,7 @@
                             <input type="text" id="email" name="email" class="form-control"
                                    th:value="${user.email}"
                                    th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''"
-                                   placeholder="Please enter a valid email.">
+                                   placeholder="Please enter email">
                             <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback"
                                  th:errors="*{email}"></div>
                         </div>
@@ -58,15 +58,15 @@
                             <label for="password" class="form-label">Password:</label>
                             <input type="password" id="password" name="password" class="form-control"
                                    th:classappend="${#fields.hasErrors('password')} ? ' is-invalid' : ''"
-                                   placeholder="Please enter a password.">
+                                   placeholder="Please enter a password">
                             <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback"
                                  th:errors="*{password}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                            <label for="confirmPassword" class="form-label">Password:</label>
                             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
                                    th:classappend="${#fields.hasErrors('confirmPassword')} ? ' is-invalid' : ''"
-                                   placeholder="Please enter the same password again.">
+                                   placeholder="Please enter the same password again">
                             <div th:if="${#fields.hasErrors('confirmPassword')}" class="invalid-feedback"
                                  th:errors="*{confirmPassword}"></div>
                         </div>

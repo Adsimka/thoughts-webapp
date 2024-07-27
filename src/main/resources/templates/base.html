@@ -28,26 +28,30 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/messages">Messages</a>
-                    </li>
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/messages">Messages</a>
+                        </li>
+                    </div>
                     <div sec:authorize="isAuthenticated()">
                         <div th:if="${#authentication.principal.isAdmin()}">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/users">Users</a>
                             </li>
                         </div>
-                        <div>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/users/profile/{id}(id=${#authentication.principal.id})}">Profile</a>
-                            </li>
-                        </div>
                     </div>
-<!--                    <div sec:authorize="isAuthenticated()">-->
-<!--                        <li class="nav-item">-->
-<!--                            <a class="nav-link active" aria-current="page" th:href="@{/users/profile/{id}(id=${#authentication.principal.id})}">Profile</a>-->
-<!--                        </li>-->
-<!--                    </div>-->
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                               th:href="@{/users/profile/{id}(id=${#authentication.principal.id})}">Profile</a>
+                        </li>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                               th:href="@{/messages/{id}(id=${#authentication.principal.id})}">My message</a>
+                        </li>
+                    </div>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
