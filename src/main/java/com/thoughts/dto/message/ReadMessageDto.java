@@ -8,6 +8,8 @@ import lombok.Value;
 @Builder
 public class ReadMessageDto {
 
+    Long id;
+
     String text;
 
     String tag;

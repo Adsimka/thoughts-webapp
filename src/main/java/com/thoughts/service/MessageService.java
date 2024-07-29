@@ -1,8 +1,10 @@
 package com.thoughts.service;
 
 import com.thoughts.dto.message.CreateMessageDto;
+import com.thoughts.dto.message.EditMessageDto;
 import com.thoughts.dto.message.ReadMessageDto;
 import com.thoughts.mapper.message.CreateMessageMapper;
+import com.thoughts.mapper.message.EditMessageMapper;
 import com.thoughts.mapper.message.ReadMessageMapper;
 import com.thoughts.model.Message;
 import com.thoughts.model.User;
@@ -31,7 +33,7 @@ public class MessageService {
 
     private final CreateMessageMapper createMessageMapper;
     private final ReadMessageMapper readMessageMapper;
-
+    private final EditMessageMapper editMessageMapper;
 
     public List<ReadMessageDto> findAll(String tag) {
         if (tag != null && !tag.isEmpty()) {
@@ -51,8 +53,8 @@ public class MessageService {
     }
 
     @Transactional
-    public Message create(CreateMessageDto createMessageDto,
-                          User user) {
+    public ReadMessageDto create(CreateMessageDto createMessageDto,
+                                 User user) {
         Message message = createMessageMapper.map(createMessageDto);
         message.setAuthor(user);
 
@@ -60,7 +62,19 @@ public class MessageService {
 
         return Optional.of(message)
                 .map(messageRepository::saveAndFlush)
+                .map(readMessageMapper::map)
                 .orElseThrow();
+    }
+
+    @Transactional
+    public Optional<ReadMessageDto> update(EditMessageDto messageDto, Long id) {
+        return messageRepository.findById(id)
+                .map(entity -> {
+                    uploadFile(messageDto.getImage(), entity);
+                    return editMessageMapper.map(messageDto, entity);
+                })
+                .map(messageRepository::saveAndFlush)
+                .map(readMessageMapper::map);
     }
 
     private void uploadFile(MultipartFile file, Message message) {

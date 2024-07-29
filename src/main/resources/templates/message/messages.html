@@ -23,7 +23,8 @@
                             <label for="text" class="form-label">Text:</label>
                             <input type="text" id="text" name="text" class="form-control"
                                    th:classappend="${#fields.hasErrors('text')} ? 'is-invalid' : ''">
-                            <div th:if="${#fields.hasErrors('text')}" class="invalid-feedback" th:errors="*{text}"></div>
+                            <div th:if="${#fields.hasErrors('text')}" class="invalid-feedback"
+                                 th:errors="*{text}"></div>
                         </div>
                         <div class="mb-3">
                             <label for="tag" class="form-label">Tag:</label>
@@ -35,7 +36,8 @@
                             <label for="image" class="form-label">Image:</label>
                             <input type="file" id="image" name="image" class="form-control"
                                    th:classappend="${#fields.hasErrors('image')} ? 'is-invalid' : ''">
-                            <div th:if="${#fields.hasErrors('image')}" class="invalid-feedback" th:errors="*{image}"></div>
+                            <div th:if="${#fields.hasErrors('image')}" class="invalid-feedback"
+                                 th:errors="*{image}"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Create Message</button>
                     </form>
@@ -64,7 +66,8 @@
                         </div>
                         <div class="card-footer">
                             <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
-                            <a th:href="@{/messages/{id}(id=${message.author.id})}" th:text="${message.author.username}"></a>
+                            <a th:href="@{/messages/{id}(id=${message.author.id})}"
+                               th:text="${message.author.username}"></a>
                         </div>
                     </div>
                 </div>

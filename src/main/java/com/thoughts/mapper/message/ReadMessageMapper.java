@@ -13,6 +13,7 @@ public class ReadMessageMapper implements Mapper<Message, ReadMessageDto> {
     @Override
     public ReadMessageDto map(Message object) {
         return ReadMessageDto.builder()
+                .id(object.getId())
                 .text(object.getText())
                 .tag(object.getTag())
                 .author(object.getAuthor())
