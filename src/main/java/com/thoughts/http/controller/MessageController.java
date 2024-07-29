@@ -63,11 +63,22 @@ public class MessageController {
     }
 
     @PostMapping("/{id}")
-    public String update(Model model,
-                       @RequestParam("id") Long id,
-                       @ModelAttribute("message") EditMessageDto message) {
+    public String update(@ModelAttribute("message") @Validated EditMessageDto message,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
+                         @RequestParam("id") Long id,
+                         @PathVariable("id") Long idUrl) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.message",
+                    bindingResult
+            );
+            return "redirect:/messages/" + idUrl;
+        }
         return messageService.update(message, id)
                 .map(it -> "redirect:/messages")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
 }
