@@ -17,7 +17,7 @@ spring:
     post: 587
     protocol: smtps
     username: arsenminnegulov@gmail.com
-    password: wsqgscvdkwdbypay
+    password:
     properties:
       mail:
         smtp:
