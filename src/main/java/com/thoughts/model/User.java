@@ -46,23 +46,23 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
 
-    @ManyToMany
-    @Builder.Default
-    @JoinTable(
-            name = "user_subscriptions",
-            joinColumns = {@JoinColumn(name = "channel_id")},
-            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
-    )
-    private Set<User> subscribers = new HashSet<>();
+//    @ManyToMany
+////    @Builder.Default
+//    @JoinTable(
+//            name = "user_subscriptions",
+//            joinColumns = {@JoinColumn(name = "channel_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
+//    )
+//    private Set<User> subscribers = new HashSet<>();
 
-    @ManyToMany
-    @Builder.Default
-    @JoinTable(
-            name = "user_subscriptions",
-            joinColumns = {@JoinColumn(name = "subscriber_id")},
-            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
-    )
-    private Set<User> subscriptions = new HashSet<>();
+//    @ManyToMany
+////    @Builder.Default
+//    @JoinTable(
+//            name = "user_subscriptions",
+//            joinColumns = {@JoinColumn(name = "subscriber_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
+//    )
+//    private Set<User> subscriptions = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

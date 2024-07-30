@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- <html lang="en" xmlns:th="http://www.thymleaf.org">
+<html lang="en" xmlns:th="http://www.thymleaf.org">
 <head th:replace="~{base.html :: head}">
 </head>
 <body>
@@ -18,7 +18,8 @@
                             <br>
                             <em th:text="'#' + ${message.tag}" style="font-style: italic; margin-left: 5px;"></em>
                         </div>
-                        <div class="card-footer d-flex justify-content-end">
+                        <div class="card-footer d-flex justify-content-end"
+                             th:if="${message.author.id == #authentication.principal.id}">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit
                             </button>
@@ -36,7 +37,7 @@
                                                   th:object="${message}"
                                                   enctype="multipart/form-data"
                                                   class="mt-4">
-                                                <input type="hidden" id="id" name="id" th:value="${message.id}" />
+                                                <input type="hidden" id="id" name="id" th:value="${message.id}"/>
                                                 <div class="mb-3">
                                                     <label for="text" class="form-label text-start">Text:</label>
                                                     <input type="text" id="text" name="text" class="form-control">
