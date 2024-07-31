@@ -19,34 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String showUserEdit(Model model) {
-        var users = userService.getAllUsersWithRoles();
-        model.addAttribute("users", users);
-
-        return "users/users";
-    }
-
-    @GetMapping("/admin/{user}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String showUserEditProfile(Model model,
-                                  @PathVariable("user") User user) {
-        model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
-
-        return "users/edit";
-    }
-
-    @PostMapping("/admin/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String userEditProfile(@PathVariable("id") Long id,
-                                  @ModelAttribute("user") User user) {
-        return userService.updateUserByAdmin(id, user)
-                .map(u -> "redirect:/users")
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
     @GetMapping("/profile/{id}")
     public String showUserEditForm(Model model,
                                    @PathVariable("id") Long id) {

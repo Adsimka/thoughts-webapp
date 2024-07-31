@@ -21,7 +21,7 @@
                     <tr th:each="user : ${users}">
                         <td th:text="${user.username}"></td>
                         <td th:text="${#strings.listJoin(user.roles, ', ')}"></td>
-                        <td><a th:href="@{/users/admin/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit</a></td>
+                        <td><a th:href="@{/admin/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit</a></td>
                     </tr>
                     </tbody>
                 </table>
