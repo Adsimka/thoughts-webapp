@@ -1,9 +1,11 @@
 package com.thoughts.service;
 
 import com.thoughts.dto.user.CreateUserDto;
+import com.thoughts.dto.user.ProfileUserDto;
 import com.thoughts.dto.user.ReadUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
 import com.thoughts.mapper.user.CreateUserMapper;
+import com.thoughts.mapper.user.ProfileUserMapper;
 import com.thoughts.mapper.user.ReadUserMapper;
 import com.thoughts.model.Role;
 import com.thoughts.model.User;
@@ -34,6 +36,7 @@ public class UserService implements UserDetailsService {
 
     private final CreateUserMapper createUserMapper;
     private final ReadUserMapper readUserMapper;
+    private final ProfileUserMapper profileUserMapper;
 
     private final UserRepository userRepository;
     private final EmailService emailService;
@@ -45,6 +48,7 @@ public class UserService implements UserDetailsService {
                        UserRepository userRepository,
                        CreateUserMapper createUserMapper,
                        ReadUserMapper readUserMapper,
+                       ProfileUserMapper profileUserMapper,
                        EmailService emailService,
                        PasswordEncoder passwordEncoder) {
         this.subject = subject;
@@ -53,6 +57,7 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.createUserMapper = createUserMapper;
         this.readUserMapper = readUserMapper;
+        this.profileUserMapper = profileUserMapper;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
     }

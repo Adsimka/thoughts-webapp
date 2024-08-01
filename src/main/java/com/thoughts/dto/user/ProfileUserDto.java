@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ProfileReadUserDto {
+public class ProfileUserDto {
 
     Long id;
 
