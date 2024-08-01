@@ -91,10 +91,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<User> updateUserByAdmin(Long id, User user) {
+    public Optional<ReadUserDto> updateUserByAdmin(Long id, User user) {
         return userRepository.findById(id)
                 .map(entity -> map(user, entity))
-                .map(userRepository::saveAndFlush);
+                .map(userRepository::saveAndFlush)
+                .map(readUserMapper::map);
     }
 
     @Transactional
