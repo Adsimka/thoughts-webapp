@@ -30,7 +30,7 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/profile/{id}")
+    @PostMapping("/profile/{id}")
     public String updateUserProfile(@PathVariable("id") Long id,
                                     @ModelAttribute CreateUserDto user) {
         return userService.updateProfile(id, user)

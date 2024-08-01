@@ -62,7 +62,7 @@ public class MessageController {
         return "message/my_messages";
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public String update(@ModelAttribute("message") @Validated EditMessageDto message,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
