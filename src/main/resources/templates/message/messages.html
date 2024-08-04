@@ -66,7 +66,7 @@
                         </div>
                         <div class="card-footer">
                             <!--                TODO 03.07.2024 : Fix problem with requests for each author -->
-                            <a th:href="@{/messages/{id}(id=${message.author.id})}"
+                            <a th:href="@{/profile/{id}(id=${message.author.id})}"
                                th:text="${message.author.username}"></a>
                         </div>
                     </div>

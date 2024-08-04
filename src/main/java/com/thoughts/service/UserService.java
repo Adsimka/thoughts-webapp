@@ -20,10 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,6 +36,7 @@ public class UserService implements UserDetailsService {
     private final ProfileUserMapper profileUserMapper;
 
     private final UserRepository userRepository;
+
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
@@ -87,10 +85,6 @@ public class UserService implements UserDetailsService {
                 })
                 .map(userRepository::saveAndFlush)
                 .orElseThrow();
-        log.info(
-                "The user with the {} has been successfully added to the system (without activation)",
-                user.getEmail()
-        );
 
         sendEmail(user, token);
     }
@@ -111,9 +105,28 @@ public class UserService implements UserDetailsService {
                 .map(readUserMapper::map);
     }
 
+    @Transactional
+    public Optional<ProfileUserDto> profileFindById(Long id, Long currentUserId) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    boolean isSubscribed = user.getSubscribers().contains(currentUserId);
+                    return profileUserMapper.map(user, isSubscribed);
+                });
+    }
+
     public Optional<ReadUserDto> findById(Long id) {
         return userRepository.findById(id)
                 .map(readUserMapper::map);
+    }
+
+    @Transactional
+    public void subscribe(Long id, User currentUserId) {
+        Optional<User> mbUser = userRepository.findById(id);
+        if (mbUser.isPresent()) {
+            User user = mbUser.get();
+            user.getSubscribers().add(currentUserId);
+            userRepository.save(user);
+        }
     }
 
     private User map(User user, User entity) {

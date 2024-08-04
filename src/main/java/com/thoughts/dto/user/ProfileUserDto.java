@@ -14,4 +14,6 @@ public class ProfileUserDto {
     Integer subscribers;
 
     Integer subscriptions;
+
+    Boolean isSubscribed;
 }

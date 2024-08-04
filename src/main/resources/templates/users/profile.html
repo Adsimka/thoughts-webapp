@@ -11,6 +11,22 @@
             <div>
                 <span th:text="${user.username}"></span>
             </div>
+            <div th:if="${user.id != #authentication.principal.id}">
+                <div th:if="!${user.isSubscribed}">
+                    <form th:action="@{/profile/subscribe/{id}(id=${user.id})}" method="post">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+                <div th:if="${user.id == #authentication.principal.id}">
+                    <form th:action="@{/profile/unsubscribe/{id}(id=${user.id})}" method="post">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Unsubscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div>
                 <div class="container my-3">
                     <div class="row">
@@ -19,9 +35,7 @@
                                 <div class="card-body">
                                     <div class="card-title">Subscriptions</div>
                                     <h3 class="card-text">
-                                        <a href="/user/subscriptions/${userChannel.id}/list">${subscriptionsCount}</a>
-                                        <a th:href="@{/profile/subscriptions/{id}(id=${user.id})}"
-                                           th:text="${user.get}"></a>
+                                        <span th:text="${user.subscriptions}"></span>
                                     </h3>
                                 </div>
                             </div>
@@ -31,7 +45,7 @@
                                 <div class="card-body">
                                     <div class="card-title">Subscribers</div>
                                     <h3 class="card-text">
-                                        <a href="/user/subscribers/${userChannel.id}/list">${subscribersCount}</a>
+                                        <span th:text="${user.subscribers}"></span>
                                     </h3>
                                 </div>
                             </div>
@@ -40,27 +54,27 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                Edit User
-            </div>
-            <div class="card-body">
-                <form th:action="@{/users/profile/{userId}(userId=${user.id})}" method="post" th:object="${user}">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input id="username" type="text" class="form-control" name="username" th:value="*{username}">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" name="password">
-                    </div>
-                    <br>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <!--        <div class="card">-->
+        <!--            <div class="card-header">-->
+        <!--                Edit User-->
+        <!--            </div>-->
+        <!--            <div class="card-body">-->
+        <!--                <form th:action="@{/users/profile/{userId}(userId=${user.id})}" method="post" th:object="${user}">-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label for="username">Username</label>-->
+        <!--                        <input id="username" type="text" class="form-control" name="username" th:value="*{username}">-->
+        <!--                    </div>-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label for="password">Password</label>-->
+        <!--                        <input id="password" type="password" class="form-control" name="password">-->
+        <!--                    </div>-->
+        <!--                    <br>-->
+        <!--                    <div>-->
+        <!--                        <button type="submit" class="btn btn-primary">Edit</button>-->
+        <!--                    </div>-->
+        <!--                </form>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </th:block>
 </div>
 </body>

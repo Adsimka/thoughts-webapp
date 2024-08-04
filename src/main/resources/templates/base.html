@@ -36,7 +36,7 @@
                     <div sec:authorize="isAuthenticated()">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page"
-                               th:href="@{/users/profile/{id}(id=${#authentication.principal.id})}">Profile</a>
+                               th:href="@{/profile/{id}(id=${#authentication.principal.id})}">Profile</a>
                         </li>
                     </div>
                     <div sec:authorize="isAuthenticated()">
