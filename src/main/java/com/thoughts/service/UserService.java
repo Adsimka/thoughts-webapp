@@ -68,11 +68,10 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void registrationNewUser(CreateUserDto user) {
         if (emailUsernameExists(user.getUsername(), user.getEmail())) {
-            String exceptionMessage = String.format(
+            throw new UserAlreadyExistException(String.format(
                     "There is an account with that username/email address: %s",
-                    user.getEmail()
+                    user.getEmail())
             );
-            throw new UserAlreadyExistException(exceptionMessage);
         }
         String token = getRandomToken();
         Optional.of(user)
@@ -92,7 +91,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public Optional<ReadUserDto> updateUserByAdmin(Long id, User user) {
         return userRepository.findById(id)
-                .map(entity -> map(user, entity))
+                .map(entity -> updateExistingUser(user, entity))
                 .map(userRepository::saveAndFlush)
                 .map(readUserMapper::map);
     }
@@ -120,21 +119,18 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void subscribe(Long id, User currentUserId) {
-        Optional<User> mbUser = userRepository.findById(id);
-        if (mbUser.isPresent()) {
-            User user = mbUser.get();
-            user.getSubscribers().add(currentUserId);
-            userRepository.save(user);
-        }
+    public void subscribe(Long id, User currentUser) {
+        userRepository.findById(id)
+                .ifPresent(user -> {
+                    user.getSubscribers().add(currentUser);
+                    userRepository.save(user);
+                });
     }
 
-    private User map(User user, User entity) {
-        if (user.getUsername() != null) {
-            entity.setUsername(user.getUsername());
-        }
+    private User updateExistingUser(User user, User entity) {
+        Optional.ofNullable(user.getUsername())
+                .ifPresent(entity::setUsername);
         entity.setRoles(user.getRoles());
-
         return entity;
     }
 
@@ -155,6 +151,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow();
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }
