@@ -19,4 +19,9 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    public boolean isEmailChanged(String newEmail, String existingEmail) {
+        return (newEmail != null && !newEmail.equals(existingEmail))
+                || (existingEmail != null && !existingEmail.equals(newEmail));
+    }
 }

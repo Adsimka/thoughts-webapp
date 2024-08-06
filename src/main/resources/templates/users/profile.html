@@ -31,16 +31,6 @@
                 <div class="col-md-6 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Subscriptions</h5>
-                            <h3 class="card-text">
-                                <span th:text="${user.subscriptions}"></span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
                             <h5 class="card-title">Subscribers</h5>
                             <h3 class="card-text">
                                 <span th:text="${user.subscribers}"></span>
@@ -48,29 +38,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Subscriptions</h5>
+                            <h3 class="card-text">
+                                <span th:text="${user.subscriptions}"></span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!--        <div class="card">-->
-        <!--            <div class="card-header">-->
-        <!--                Edit User-->
-        <!--            </div>-->
-        <!--            <div class="card-body">-->
-        <!--                <form th:action="@{/users/profile/{userId}(userId=${user.id})}" method="post" th:object="${user}">-->
-        <!--                    <div class="form-group">-->
-        <!--                        <label for="username">Username</label>-->
-        <!--                        <input id="username" type="text" class="form-control" name="username" th:value="*{username}">-->
-        <!--                    </div>-->
-        <!--                    <div class="form-group">-->
-        <!--                        <label for="password">Password</label>-->
-        <!--                        <input id="password" type="password" class="form-control" name="password">-->
-        <!--                    </div>-->
-        <!--                    <br>-->
-        <!--                    <div>-->
-        <!--                        <button type="submit" class="btn btn-primary">Edit</button>-->
-        <!--                    </div>-->
-        <!--                </form>-->
-        <!--            </div>-->
-        <!--        </div>-->
     </th:block>
 </div>
 </body>

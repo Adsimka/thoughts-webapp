@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,40 +32,33 @@ public class UserController {
 
     @PostMapping("/subscribe/{id}")
     public String subscribe(@PathVariable("id") Long id,
-                            @AuthenticationPrincipal User currentUser,
-                            RedirectAttributes redirectAttributes) {
-        boolean isSubscribed = userService.subscribe(id, currentUser);
-        redirectAttributes.addFlashAttribute("isSubscribed", isSubscribed);
+                            @AuthenticationPrincipal User currentUser) {
+        userService.subscribe(id, currentUser);
 
         return "redirect:/profile/" + id;
     }
 
     @PostMapping("/unsubscribe/{id}")
     public String unsubscribe(@PathVariable("id") Long id,
-                              @AuthenticationPrincipal User currentUser,
-                              RedirectAttributes redirectAttributes) {
-        boolean isSubscribed = !userService.unsubscribe(id, currentUser);
-        redirectAttributes.addFlashAttribute("isSubscribed", isSubscribed);
+                              @AuthenticationPrincipal User currentUser) {
+        userService.unsubscribe(id, currentUser);
 
         return "redirect:/profile/" + id;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit")
     public String showUserEditForm(Model model,
-                                   @PathVariable("id") Long id) {
-        return userService.findById(id)
-                .map(user -> {
-                    model.addAttribute("user", user);
-                    return "users/profile";
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                                   @AuthenticationPrincipal User user) {
+        model.addAttribute("user", user);
+
+        return "users/edit";
     }
 
-    @PostMapping("/edit/{id}")
-    public String updateUserProfile(@PathVariable("id") Long id,
-                                    @ModelAttribute CreateUserDto user) {
+    @PostMapping("/edit")
+    public String updateUserProfile(@ModelAttribute CreateUserDto user,
+                                    @RequestParam("id") Long id) {
         return userService.updateProfile(id, user)
-                .map(readUserDto -> "redirect:/users/profile/{id}")
+                .map(readUserDto -> "redirect:/profile")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

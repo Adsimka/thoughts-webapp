@@ -4,6 +4,7 @@ import com.thoughts.dto.user.CreateUserDto;
 import com.thoughts.dto.user.ProfileUserDto;
 import com.thoughts.dto.user.ReadUserDto;
 import com.thoughts.exception.UserAlreadyExistException;
+import com.thoughts.exception.UserNotFoundException;
 import com.thoughts.mapper.user.CreateUserMapper;
 import com.thoughts.mapper.user.ProfileUserMapper;
 import com.thoughts.mapper.user.ReadUserMapper;
@@ -19,8 +20,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -96,12 +101,16 @@ public class UserService implements UserDetailsService {
                 .map(readUserMapper::map);
     }
 
+    @SneakyThrows
     @Transactional
     public Optional<ReadUserDto> updateProfile(Long id, CreateUserDto user) {
-        return userRepository.findById(id)
-                .map(u -> createUserMapper.map(user, u))
-                .map(userRepository::saveAndFlush)
-                .map(readUserMapper::map);
+        return Optional.of(userRepository.findById(id)
+                .map(existingUser -> updateUser(existingUser, user))
+                .map(userRepository::save)
+                .map(readUserMapper::map)
+                .orElseThrow(() -> new UserNotFoundException(
+                String.format("User not found: user id - %s", id)))
+        );
     }
 
     @Transactional
@@ -138,6 +147,32 @@ public class UserService implements UserDetailsService {
                     return isUnsubscribed;
                 })
                 .orElse(false);
+    }
+
+    private User updateUser(User existingUser, CreateUserDto user) {
+        String email = user.getEmail();
+        String token = getRandomToken();
+        boolean isEmailChanged = emailService.isEmailChanged(email, existingUser.getEmail());
+
+        if (!StringUtils.isEmpty(user.getPassword())) {
+            existingUser.setPassword(user.getPassword());
+        }
+        if (!StringUtils.isEmpty(user.getUsername())
+                && existingUser.getUsername() != user.getUsername()) {
+            existingUser.setUsername(user.getUsername());
+        }
+        if (isEmailChanged) {
+            existingUser.setEmail(email);
+            if (!StringUtils.isEmpty(email)) {
+                existingUser.setVerificationToken(token);
+            }
+        }
+
+        if (isEmailChanged) {
+            sendEmail(user, token);
+        }
+
+        return existingUser;
     }
 
     private User updateExistingUser(User user, User entity) {
