@@ -48,6 +48,13 @@
                         </div>
                     </div>
                 </div>
+                <div th:if="${user.id == #authentication.principal.id}">
+                    <form th:action="@{/profile/edit}" method="get">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Update profile</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </th:block>
