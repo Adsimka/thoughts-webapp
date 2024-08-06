@@ -7,48 +7,44 @@
 <div th:replace="~{base.html :: navbar}"></div>
 <div th:replace="~{base.html :: contentWrapper}">
     <th:block th:fragment="content">
-        <div>
-            <div>
-                <span th:text="${user.username}"></span>
+        <div class="container my-4">
+            <div class="row mb-3">
+                <div class="col">
+                    <span th:text="${user.username}"></span>
+                </div>
             </div>
-            <div th:if="${user.id != #authentication.principal.id}">
-                <div th:if="!${user.isSubscribed}">
-                    <form th:action="@{/profile/subscribe/{id}(id=${user.id})}" method="post">
-                        <div>
+            <div class="row mb-3" th:if="${user.id != #authentication.principal.id}">
+                <div class="col">
+                    <div th:if="!${user.isSubscribed}">
+                        <form th:action="@{/profile/subscribe/{id}(id=${user.id})}" method="post">
                             <button type="submit" class="btn btn-primary">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-                <div th:if="${user.id == #authentication.principal.id}">
-                    <form th:action="@{/profile/unsubscribe/{id}(id=${user.id})}" method="post">
-                        <div>
+                        </form>
+                    </div>
+                    <div th:if="${user.isSubscribed}">
+                        <form th:action="@{/profile/unsubscribe/{id}(id=${user.id})}" method="post">
                             <button type="submit" class="btn btn-primary">Unsubscribe</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="container my-3">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">Subscriptions</div>
-                                    <h3 class="card-text">
-                                        <span th:text="${user.subscriptions}"></span>
-                                    </h3>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Subscriptions</h5>
+                            <h3 class="card-text">
+                                <span th:text="${user.subscriptions}"></span>
+                            </h3>
                         </div>
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">Subscribers</div>
-                                    <h3 class="card-text">
-                                        <span th:text="${user.subscribers}"></span>
-                                    </h3>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Subscribers</h5>
+                            <h3 class="card-text">
+                                <span th:text="${user.subscribers}"></span>
+                            </h3>
                         </div>
                     </div>
                 </div>

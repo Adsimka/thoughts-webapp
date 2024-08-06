@@ -14,6 +14,7 @@ public class ProfileUserMapper implements Mapper<User, ProfileUserDto> {
                 .username(object.getUsername())
                 .subscribers(object.getSubscribers().size())
                 .subscriptions(object.getSubscriptions().size())
+                .isSubscribed(isSubscribed)
                 .build();
     }
 

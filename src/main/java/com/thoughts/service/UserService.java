@@ -105,10 +105,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<ProfileUserDto> profileFindById(Long id, Long currentUserId) {
+    public Optional<ProfileUserDto> profileFindById(Long id, User currentUser) {
         return userRepository.findById(id)
                 .map(user -> {
-                    boolean isSubscribed = user.getSubscribers().contains(currentUserId);
+                    boolean isSubscribed = user.getSubscribers().contains(currentUser);
                     return profileUserMapper.map(user, isSubscribed);
                 });
     }
@@ -119,12 +119,25 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void subscribe(Long id, User currentUser) {
-        userRepository.findById(id)
-                .ifPresent(user -> {
-                    user.getSubscribers().add(currentUser);
+    public boolean subscribe(Long id, User currentUser) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    boolean isSubscribed = user.getSubscribers().add(currentUser);
                     userRepository.save(user);
-                });
+                    return isSubscribed;
+                })
+                .orElse(false);
+    }
+
+    @Transactional
+    public boolean unsubscribe(Long id, User currentUser) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    boolean isUnsubscribed = user.getSubscribers().remove(currentUser);
+                    userRepository.save(user);
+                    return isUnsubscribed;
+                })
+                .orElse(false);
     }
 
     private User updateExistingUser(User user, User entity) {

@@ -2,11 +2,14 @@ package com.thoughts.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.thoughts.model.Role.ADMIN;
@@ -63,6 +66,10 @@ public class User implements UserDetails {
     )
     private Set<User> subscriptions = new HashSet<>();
 
+    public boolean isAdmin() {
+        return roles.contains("ADMIN");
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
@@ -88,7 +95,34 @@ public class User implements UserDetails {
         return active;
     }
 
-    public boolean isAdmin() {
-        return roles.contains(ADMIN);
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        Class<?> oEffectiveClass = o instanceof HibernateProxy
+                ? ((HibernateProxy) o).getHibernateLazyInitializer()
+                .getPersistentClass()
+                : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy
+                ? ((HibernateProxy) this).getHibernateLazyInitializer()
+                .getPersistentClass()
+                : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) {
+            return true;
+        }
+        User user = (User) o;
+        return getId() != null && Objects.equals(user.id, getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy
+                ? ((HibernateProxy) this).getHibernateLazyInitializer()
+                .hashCode()
+                : getClass().hashCode();
     }
 }

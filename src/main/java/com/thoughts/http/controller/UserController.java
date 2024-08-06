@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class UserController {
     public String showProfile(Model model,
                               @PathVariable("id") Long id,
                               @AuthenticationPrincipal User currentUser) {
-        return userService.profileFindById(id, currentUser.getId())
+        return userService.profileFindById(id, currentUser)
                 .map(user -> {
                     model.addAttribute("user", user);
                     return "users/profile";
@@ -32,8 +33,21 @@ public class UserController {
 
     @PostMapping("/subscribe/{id}")
     public String subscribe(@PathVariable("id") Long id,
-                            @AuthenticationPrincipal User currentUser) {
-        userService.subscribe(id, currentUser);
+                            @AuthenticationPrincipal User currentUser,
+                            RedirectAttributes redirectAttributes) {
+        boolean isSubscribed = userService.subscribe(id, currentUser);
+        redirectAttributes.addFlashAttribute("isSubscribed", isSubscribed);
+
+        return "redirect:/profile/" + id;
+    }
+
+    @PostMapping("/unsubscribe/{id}")
+    public String unsubscribe(@PathVariable("id") Long id,
+                              @AuthenticationPrincipal User currentUser,
+                              RedirectAttributes redirectAttributes) {
+        boolean isSubscribed = !userService.unsubscribe(id, currentUser);
+        redirectAttributes.addFlashAttribute("isSubscribed", isSubscribed);
+
         return "redirect:/profile/" + id;
     }
 
