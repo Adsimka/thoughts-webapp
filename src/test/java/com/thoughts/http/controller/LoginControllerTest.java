@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -24,11 +25,20 @@ public class LoginControllerTest {
 
     @SneakyThrows
     @Test
-    void redirectionByLoginPage() {
-        this.mockMvc.perform(get("/messages"))
+    void redirectionByLoginPageTest() {
+        mockMvc.perform(get("/messages"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    @SneakyThrows
+    void correctLoginTest() {
+        mockMvc.perform(formLogin().user("admin").password("admin"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
     }
 
 }
