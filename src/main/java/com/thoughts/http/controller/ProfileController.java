@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/profile")
-public class UserController {
+public class ProfileController {
 
     private final UserService userService;
 
