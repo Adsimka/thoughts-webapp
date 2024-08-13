@@ -12,6 +12,8 @@ import com.thoughts.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,15 +37,13 @@ public class MessageService {
     private final ReadMessageMapper readMessageMapper;
     private final EditMessageMapper editMessageMapper;
 
-    public List<ReadMessageDto> findAll(String tag) {
+    public Page<ReadMessageDto> findAll(String tag, Pageable pageable) {
         if (tag != null && !tag.isEmpty()) {
-            return messageRepository.findByTag(tag).stream()
-                    .map(readMessageMapper::map)
-                    .toList();
+            return messageRepository.findByTag(tag, pageable)
+                    .map(readMessageMapper::map);
         }
-        return messageRepository.findAllWithAuthors().stream()
-                .map(readMessageMapper::map)
-                .toList();
+        return messageRepository.findAllWithAuthors(pageable)
+                .map(readMessageMapper::map);
     }
 
     public List<ReadMessageDto> findAllByAuthorId(Long id) {

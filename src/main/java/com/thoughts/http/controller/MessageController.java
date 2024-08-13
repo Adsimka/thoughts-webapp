@@ -5,6 +5,9 @@ import com.thoughts.dto.message.EditMessageDto;
 import com.thoughts.model.User;
 import com.thoughts.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,9 +27,11 @@ public class MessageController {
 
     @GetMapping
     public String showMessageForm(Model model,
-                                  @RequestParam(required = false, defaultValue = "") String tag) {
-        var messages = messageService.findAll(tag);
-        model.addAttribute("messages", messages);
+                                  @RequestParam(required = false, defaultValue = "") String tag,
+                                  @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        var messages = messageService.findAll(tag, pageable);
+        model.addAttribute("page", messages);
+        model.addAttribute("messages", messages.getContent());
 
         if (!model.containsAttribute("message")) {
             model.addAttribute("message", new CreateMessageDto());

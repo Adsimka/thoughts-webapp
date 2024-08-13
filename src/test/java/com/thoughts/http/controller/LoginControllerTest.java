@@ -11,20 +11,20 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 public class LoginControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @SneakyThrows
     @Test
+    @SneakyThrows
     void redirectionByLoginPageTest() {
         mockMvc.perform(get("/messages"))
                 .andDo(print())
@@ -41,4 +41,10 @@ public class LoginControllerTest {
                 .andExpect(redirectedUrl("/"));
     }
 
+    @Test
+    @SneakyThrows
+    void badCredentials() {
+        mockMvc.perform(post("/login").param("Lipkis", "Arseniy"))
+                .andExpect(status().isForbidden());
+    }
 }

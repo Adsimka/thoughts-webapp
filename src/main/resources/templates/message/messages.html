@@ -73,6 +73,29 @@
                 </div>
             </th:block>
         </div>
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                        <a class="page-link" th:href="@{|/messages?page=${page.number - 1}&size=${page.size}    |}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}"
+                        th:classappend="${i == page.number + 1} ? 'active' : ''">
+                        <a class="page-link" th:href="@{|/messages?page=${i - 1}&size=${page.size}|}"
+                           th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                        <a class="page-link" th:href="@{|/messages?page=${page.number + 1}&size=${page.size}|}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </th:block>
 </div>
 </body>
